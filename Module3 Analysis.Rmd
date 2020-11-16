@@ -9,9 +9,11 @@ output: html_document
 dat <- read.csv("Data/df.csv",header=TRUE)
 star.dat <- dat[,c(2,11:dim(dat)[2])]
 words <- apply(star.dat[,2:dim(star.dat)[2]],2,sum)
-sort(words, decreasing = TRUE)
+sort(words, decreasing= TRUE)
+
 
 word.frequency <- function(argument1){
+ind <- argument1
 total.star1 <-length(which(star.dat$stars_x == 1))
 total.star2 <-length(which(star.dat$stars_x == 2))
 total.star3 <-length(which(star.dat$stars_x == 3))
@@ -19,12 +21,42 @@ total.star4 <-length(which(star.dat$stars_x == 4))
 total.star5 <-length(which(star.dat$stars_x == 5))
 total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
 
-freq.dat <- cbind(star.dat$stars_x,star.dat$room)
+freq.dat <- cbind(star.dat$stars_x,star.dat[,ind])
+v <- tapply(freq.dat[,2], freq.dat[,1], sum)
+
+v/total.v
+}
+```
+
+```{r}
+barplot(word.frequency("room"))
+barplot(word.frequency("time"))
+```
+
+```{r}
+dat2 <- read.csv("Data/df_tip.csv",header=TRUE)
+tip.dat <- dat2[,c(2,11:dim(dat2)[2])]
+tip.words <- apply(tip.dat[,2:dim(tip.dat)[2]],2,sum)
+sort(tip.words, decreasing= TRUE)
+
+word.tip.frequency <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(tip.dat$stars == 1))
+total.star1.5 <-length(which(tip.dat$stars == 1.5))
+total.star2 <-length(which(tip.dat$stars == 2))
+total.star2.5 <-length(which(tip.dat$stars == 2.5))
+total.star3 <-length(which(tip.dat$stars == 3))
+total.star3.5 <-length(which(tip.dat$stars == 3.5))
+total.star4 <-length(which(tip.dat$stars == 4))
+total.star4.5 <-length(which(tip.dat$stars == 4.5))
+total.star5 <-length(which(tip.dat$stars == 5))
+
+total.v <- c(total.star1,total.star1.5, total.star2, total.star2.5, total.star3, total.star3.5, total.star4,total.star4.5, total.star5)
+freq.dat <- cbind(tip.dat$stars,tip.dat[,ind])
 v <- tapply(freq.dat[,2], freq.dat[,1], sum)
 
 v/total.v
 }
 
-word.frequency(argument1 = room)
-word.frequency(hotel)
+word.tip.frequency("room")
 ```
