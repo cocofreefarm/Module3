@@ -11,7 +11,6 @@ star.dat <- dat[,c(2,11:dim(dat)[2])]
 words <- apply(star.dat[,2:dim(star.dat)[2]],2,sum)
 sort(words, decreasing= TRUE)
 
-
 word.frequency <- function(argument1){
 ind <- argument1
 total.star1 <-length(which(star.dat$stars_x == 1))
@@ -22,15 +21,107 @@ total.star5 <-length(which(star.dat$stars_x == 5))
 total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
 
 freq.dat <- cbind(star.dat$stars_x,star.dat[,ind])
-v <- tapply(freq.dat[,2], freq.dat[,1], sum)
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] >= 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] >= 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] >= 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] >= 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] >= 1))
+v <- c(star1, star2, star3, star4, star5)
 
-v/total.v
+Frequency <- v/total.v
+
+barplot(Frequency, xlab = "Rates", ylab = "Word Frequency", main=ind)
 }
 ```
 
 ```{r}
-barplot(word.frequency("room"))
-barplot(word.frequency("time"))
+word.frequency("great")
+word.frequency("nice")
+word.frequency("good")
+word.frequency("bad")
+word.frequency("like")
+word.frequency("well")
+word.frequency("best")
+word.frequency("better")
+word.frequency("love")
+word.frequency("recommend")
+word.frequency("awesome")
+word.frequency("worst")
+word.frequency("perfect")
+word.frequency("wonderful")
+word.frequency("enjoyed")
+word.frequency("excellent")
+word.frequency("horrible")
+```
+```{r}
+word.frequency("staff")
+word.frequency("service")
+word.frequency("wait")
+word.frequency("employee")
+word.frequency("rude")
+word.frequency("friendly")
+word.frequency("manager")
+word.frequency("care")
+word.frequency("management")
+word.frequency("reservation")
+word.frequency("helpful")
+word.frequency("decent")
+word.frequency("breakfast")
+word.frequency("coffee")
+word.frequency("price")
+```
+```{r}
+word.frequency("room")
+word.frequency("bed")
+word.frequency("desk")
+word.frequency("bathroom")
+word.frequency("pool")
+word.frequency("tub")
+word.frequency("shower")
+word.frequency("lobby")
+word.frequency("wifi")
+word.frequency("tv")
+word.frequency("elevator")
+word.frequency("fridge")
+word.frequency("window")
+word.frequency("wall")
+word.frequency("pillow")
+word.frequency("parking")
+word.frequency("suite")
+word.frequency("facility")
+word.frequency("towel")
+word.frequency("gym")
+word.frequency("ac")
+```
+```{r}
+word.frequency("shuttle")
+word.frequency("downtown")
+word.frequency("airport")
+word.frequency("bus")
+word.frequency("drink")
+word.frequency("distance")
+word.frequency("bar")
+word.frequency("location")
+word.frequency("restaurant")
+word.frequency("park")
+word.frequency("security")
+word.frequency("near")
+```
+```{r}
+par(nfrow=c(3,5))
+word.frequency("family")
+word.frequency("kid")
+word.frequency("clean")
+word.frequency("comfortable")
+word.frequency("small")
+word.frequency("pretty")
+word.frequency("quiet")
+word.frequency("beautiful")
+word.frequency("spacious")
+word.frequency("modern")
+word.frequency("noise")
+word.frequency("smell")
+word.frequency("amenity")
 ```
 
 ```{r}
@@ -50,12 +141,23 @@ total.star3.5 <-length(which(tip.dat$stars == 3.5))
 total.star4 <-length(which(tip.dat$stars == 4))
 total.star4.5 <-length(which(tip.dat$stars == 4.5))
 total.star5 <-length(which(tip.dat$stars == 5))
-
 total.v <- c(total.star1,total.star1.5, total.star2, total.star2.5, total.star3, total.star3.5, total.star4,total.star4.5, total.star5)
-freq.dat <- cbind(tip.dat$stars,tip.dat[,ind])
-v <- tapply(freq.dat[,2], freq.dat[,1], sum)
 
-v/total.v
+freq.dat <- cbind(tip.dat$stars,tip.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] >= 1))
+star1.5 <-length(which(freq.dat[,1] == 1.5 & freq.dat[,2] >= 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] >= 1))
+star2.5 <-length(which(freq.dat[,1] == 2.5 & freq.dat[,2] >= 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] >= 1))
+star3.5 <-length(which(freq.dat[,1] == 3.5 & freq.dat[,2] >= 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] >= 1))
+star4.5 <-length(which(freq.dat[,1] == 4.5 & freq.dat[,2] >= 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] >= 1))
+v <- c(star1, star1.5, star2, star2.5, star3, star3.5, star4, star4.5, star5)
+
+Frequency <- v/total.v
+
+barplot(Frequency, xlab = "Rates", ylab = "Word Frequency", main=ind)
 }
 
 word.tip.frequency("room")
