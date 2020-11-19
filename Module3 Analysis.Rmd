@@ -6,23 +6,23 @@ output: html_document
 ---
 
 ```{r}
-library(RJSONIO)
+require(RJSONIO)
 ```
 
 ```{r}
 dat <- read.csv("Data/df.csv",header=TRUE)
 star.dat <- dat[,c(2,11:dim(dat)[2])]
 words <- apply(star.dat[,2:dim(star.dat)[2]],2,sum)
-sort(words, decreasing= TRUE)
+sort(words[words>summary(words)[5]], decreasing= TRUE)
 ```
 
 ```{r}
-tapply(dat$stars_x,dat$name,mean)
+
 ```
 
 ```{r}
 attri.json <- dat$attributes
-attri.json
+
 ```
 
 ```{r}
@@ -267,6 +267,26 @@ library(nnet)
 m1 <- multinom(stars~room+second+floor+nice+decor+furniture,data = dup.dat)
 predict(m1,newdata = dup.dat)
 summary(m1)
+```
+```{r}
+names(avg.hotel)
+avg.hotel <- sort(tapply(dat$stars_x,dat$name,mean))
+plot(avg.hotel)
+review.len <- c()
+
+for(i in 1:length(names(avg.hotel))){
+review.len[i] <- length(dat$stars_x[which(dat$name==names(avg.hotel)[i])])
+}
+review.len
+
+
+dat$stars_x[which(dat$name==names(avg.hotel)[2])]
+
+dat$stars_x[which(dat$name==names(avg.hotel)[3])]
+dat$stars_x[which(dat$name==names(avg.hotel)[4])]
+dat$stars_x[which(dat$name==names(avg.hotel)[5])]
+dat$stars_x[which(dat$name==names(avg.hotel)[6])]
+dat$stars_x[which(dat$name==names(avg.hotel)[7])]
 ```
 
 
