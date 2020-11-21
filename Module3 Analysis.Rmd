@@ -259,8 +259,8 @@ summary(m1)
 
 ```{r}
 avg.hotel <- sort(tapply(dat$stars_x,dat$name,mean))
-par(cex.axis=0.40)
-barplot(avg.hotel, main = "Average Rate of Hotel in Madison", ylim = c(0,5),las=2)
+avg.hotel[avg.hotel > avg.hotel["AC Hotel by Marriott Madison Downtown"]]
+barplot(avg.hotel[avg.hotel > avg.hotel["AC Hotel by Marriott Madison Downtown"]], main = "Average Rate of Hotel Greater than AC Hotel in Madison", ylim = c(0,5),las=2)
 ```
 ```{r}
 review.len <- c()
