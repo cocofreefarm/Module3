@@ -11,73 +11,6 @@ require(nnet)
 ```{r}
 dat <- read.csv("Data/df.csv",header=TRUE)
 star.dat <- dat[,c(2,11:dim(dat)[2])]
-
-avg.hotel <- sort(tapply(dat$stars_x,dat$name,mean))
-par(cex.axis=0.40)
-barplot(avg.hotel, main = "Average Rate of Hotel in Madison", ylim = c(0,5),las=2)
-```
-
-```{r}
-review.len <- c()
-for(i in 1:length(names(avg.hotel))){
-review.len[i] <- length(dat$stars_x[which(dat$name==names(avg.hotel)[i])])
-}
-
-avg.hotel
-
-
-length(dat$stars_x[which(dat$name=="AC Hotel by Marriott Madison Downtown")])
-
-review.len
-```
-
-```{r}
-par(mfrow=c(2,4))
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[1])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[1], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[2])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[2], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[3])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[3], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[4])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[4], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[5])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[5], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[6])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[6], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[7])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[7], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[8])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[8], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[9])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[9], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[10])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[10], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[11])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[11], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[12])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[12], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[13])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[13], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[14])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[14], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[15])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[15], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[16])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[16], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[17])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[17], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[18])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[18], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[19])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[19], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[20])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[20], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[21])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[21], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[22])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[22], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[23])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[23], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[24])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[24], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[25])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[25], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[26])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[26], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[27])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[27], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[28])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[28], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[29])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[29], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[30])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[30], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[31])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[31], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[32])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[32], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[33])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[33], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[34])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[34], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[35])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[35], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[36])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[36], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[37])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[37], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[38])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[38], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[39])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[39], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[40])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[40], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[41])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[41], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[42])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[42], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[43])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[43], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[44])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[44], cex.main = 0.7)
-barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[45])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[45], cex.main = 0.7)
 ```
 
 ```{r}
@@ -87,7 +20,7 @@ sort(words[words>summary(words)[5]], decreasing= TRUE)
 
 ```{r}
 word.frequency <- function(argument1){
-ind <- "room"
+ind <- argument1
 total.star1 <-length(which(star.dat$stars_x == 1))
 total.star2 <-length(which(star.dat$stars_x == 2))
 total.star3 <-length(which(star.dat$stars_x == 3))
@@ -223,7 +156,6 @@ freq <- v/total.v
 freq
 }
 
-
 freq.mat <- matrix(rep(NA,5),nrow=5)
 for (i in 1:dim(star.dat)[2]-1){
   freq.vec <- freq(colnames(star.dat)[i+1])
@@ -234,55 +166,77 @@ freq.data <- freq.mat[,-(1:2)]
 colnames(freq.data) <- colnames(star.dat)[2:dim(star.dat)[2]]
 freq.data <- as.data.frame(cbind(star.level,freq.data))
 
-
 dup.dat <- star.dat
 for (i in 1:dim(star.dat)[2]-1){
   dup.dat[which(star.dat[,i+1] >=1),i+1]=1
 }
 stars <- star.dat[,1]
 dup.dat <- cbind(stars,dup.dat[,-1])
-dup.dat
-
-write.csv(dup.dat,"word embedding dataset_excluding repeats.csv")
+dup.dat$stars <- as.factor(dup.dat$stars)
 ```
 
 ```{r}
-anova(lm(dup.dat$staff~dup.dat$stars))
-anova(lm(dup.dat$service~dup.dat$stars))
-anova(lm(dup.dat$wait~dup.dat$stars))
-anova(lm(dup.dat$employee~dup.dat$stars))
-anova(lm(dup.dat$manager~dup.dat$stars))
-anova(lm(dup.dat$management~dup.dat$stars))
-anova(lm(dup.dat$reservation~dup.dat$stars))
-anova(lm(dup.dat$breakfast~dup.dat$stars))
-anova(lm(dup.dat$coffee~dup.dat$stars))
-anova(lm(dup.dat$price~dup.dat$stars))
+anova(lm(staff~stars, data = dup.dat))
+anova(lm(service~stars, data = dup.dat))
+anova(lm(wait~stars, data = dup.dat))
+anova(lm(employee~stars, data = dup.dat))
+anova(lm(manager~stars, data = dup.dat))
+anova(lm(management~stars, data = dup.dat))
+anova(lm(reservation~stars, data = dup.dat))
+anova(lm(breakfast~stars, data = dup.dat))
+anova(lm(coffee~stars, data = dup.dat))
+anova(lm(price~stars, data = dup.dat))
 ```
-
+```{r}
+anova(lm(room~stars, data = dup.dat))
+anova(lm(bed~stars, data = dup.dat))
+anova(lm(desk~stars, data = dup.dat))
+anova(lm(bathroom~stars, data = dup.dat))
+anova(lm(pool~stars, data = dup.dat))
+anova(lm(tub~stars, data = dup.dat))
+anova(lm(shower~stars, data = dup.dat))
+anova(lm(lobby~stars, data = dup.dat))
+anova(lm(wifi~stars, data = dup.dat))
+anova(lm(tv~stars, data = dup.dat))
+anova(lm(fridge~stars, data = dup.dat))
+anova(lm(window~stars, data = dup.dat))
+anova(lm(wall~stars, data = dup.dat))
+anova(lm(pillow~stars, data = dup.dat))
+anova(lm(parking~stars, data = dup.dat))
+anova(lm(suite~stars, data = dup.dat))
+anova(lm(facility~stars, data = dup.dat))
+anova(lm(towel~stars, data = dup.dat))
+anova(lm(gym~stars, data = dup.dat))
+```
+```{r}
+anova(lm(shuttle~stars, data = dup.dat))
+anova(lm(downtown~stars, data = dup.dat))
+anova(lm(airport~stars, data = dup.dat))
+anova(lm(bus~stars, data = dup.dat))
+anova(lm(drink~stars, data = dup.dat))
+anova(lm(distance~stars, data = dup.dat))
+anova(lm(bar~stars, data = dup.dat))
+anova(lm(location~stars, data = dup.dat))
+anova(lm(restaurant~stars, data = dup.dat))
+anova(lm(park~stars, data = dup.dat))
+anova(lm(security~stars, data = dup.dat))
+```
+```{r}
+anova(lm(family~stars, data = dup.dat))
+anova(lm(kid~stars, data = dup.dat))
+anova(lm(clean~stars, data = dup.dat))
+anova(lm(comfortable~stars, data = dup.dat))
+anova(lm(small~stars, data = dup.dat))
+anova(lm(pretty~stars, data = dup.dat))
+anova(lm(quiet~stars, data = dup.dat))
+anova(lm(beautiful~stars, data = dup.dat))
+anova(lm(spacious~stars, data = dup.dat))
+anova(lm(modern~stars, data = dup.dat))
+anova(lm(noise~stars, data = dup.dat))
+anova(lm(smell~stars, data = dup.dat))
+```
 
 ```{r}
-anova(lm(dup.dat$room~dup.dat$stars))
-anova(lm(dup.dat$bed~dup.dat$stars))
-anova(lm(dup.dat$desk~dup.dat$stars))
-anova(lm(dup.dat$bathroom~dup.dat$stars))
-anova(lm(dup.dat$pool~dup.dat$stars))
-anova(lm(dup.dat$tub~dup.dat$stars))
-anova(lm(dup.dat$shower~dup.dat$stars))
-anova(lm(dup.dat$lobby~dup.dat$stars))
-anova(lm(dup.dat$wifi~dup.dat$stars))
-anova(lm(dup.dat$tv~dup.dat$stars))
-anova(lm(dup.dat$elevator~dup.dat$stars))
-anova(lm(dup.dat$fridge~dup.dat$stars))
-anova(lm(dup.dat$wall~dup.dat$stars))
-anova(lm(dup.dat$pillow~dup.dat$stars))
-anova(lm(dup.dat$parking~dup.dat$stars))
-anova(lm(dup.dat$suite~dup.dat$stars))
-anova(lm(dup.dat$facility~dup.dat$stars))
-anova(lm(dup.dat$towel~dup.dat$stars))
-anova(lm(dup.dat$gym~dup.dat$stars))
-anova(lm(dup.dat$amenity~dup.dat$stars))
-```
-
 
 m1 <- multinom(stars~staff+service+wait+rude+manager+helpful+decent+employee+friendly+management+reservation+breakfast+coffee+room+bed+desk+bathroom+pool+tub+shower+lobby+wifi+tv+elevator+fridge+window+wall+pillow+parking+suite+facility+towel+gym+shuttle+downtown+airport+bus+drink+distance+bar+location+restaurant+park+security+family+kid+clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell, data = dup.dat)
 
@@ -297,86 +251,113 @@ predict(m2, dup.dat)
 
 summary(m1)
 
-
-library(gbm)
-library(randomForest)
-
-pow <- seq(-10, 0, by = 0.1)
-lambdas <- 10^pow
-test.boosting.error <- rep(NA, length(lambdas))
-for (i in 1:length(lambdas)) {
-  set.seed(628)
-  boost.dat <- gbm(stars~room+staff+employee+friendly+management+reservation+breakfast+coffee+room+bed+desk+bathroom+pool+tub+shower+lobby+wifi+tv+elevator+fridge+window+wall+pillow+parking+suite+facility+towel+gym+shuttle+downtown+airport+bus+drink+distance+bar+location+restaurant+park+security+family+kid+clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell, data = dup.dat, n.trees=1000, interaction.depth = 1, distribution = "multinomial", shrinkage = lambdas[i], cv.folds = 10)
-  test.pred <- apply(predict(boost.dat, dup.dat, n.trees=1000), 1, which.max)
-  test.boosting.error[i] <- 1-sum(diag(table(test.pred, dup.dat$stars)))/sum(table(test.pred, dup.dat$stars))
-}
-plot(lambdas, test.boosting.error, type="b", xlab = "lambda", ylab="MSE")
-
-min.lambda <- lambdas[which.min(test.boosting.error)]
-min.lambda
-
-test.boosting.error1 <- rep(NA, 1000)
-for (i in 1:1000) {
-  set.seed(628)
-  boost.dat <- gbm(stars~great+nice+good+bad+like+well+best+better+love+recommend+awesome+worst+perfect+wonderful+enjoyed+excellent+horrible+average+staff+service+wait+employee+rude+friendly+manager+care+management+reservation+helpful+decent+breakfast+coffee+price+room+bed+desk+bathroom+pool+tub+shower+lobby+wifi+tv+elevator+fridge+window+wall+pillow+parking+suite+facility+towel+gym+ac+shuttle+downtown+airport+bus+drink+distance+bar+location+restaurant+park+security+near+family+kid+clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell+amenity, data = dup.dat, interaction.depth = 1, distribution = "multinomial", n.trees=i, shrinkage = min.lambda)
-  test.pred <- apply(predict(boost.dat, dup.dat, n.trees=i), 1, which.max)
-  test.boosting.error1[i] <- 1-sum(diag(table(test.pred, dup.dat$stars)))/sum(table(test.pred, dup.dat$stars))
-}
-
-test.boosting.error2 <- rep(NA, 1000)
-for (i in 1:1000) {
-  set.seed(628)
-  boost.dat <- gbm(stars~great+nice+good+bad+like+well+best+better+love+recommend+awesome+worst+perfect+wonderful+enjoyed+excellent+horrible+average+staff+service+wait+employee+rude+friendly+manager+care+management+reservation+helpful+decent+breakfast+coffee+price+room+bed+desk+bathroom+pool+tub+shower+lobby+wifi+tv+elevator+fridge+window+wall+pillow+parking+suite+facility+towel+gym+ac+shuttle+downtown+airport+bus+drink+distance+bar+location+restaurant+park+security+near+family+kid+clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell+amenity, data = dup.dat, n.trees=i, interaction.depth = 2, distribution = "multinomial", shrinkage = min.lambda)
-  test.pred <- apply(predict(boost.dat, dup.dat, n.trees=i), 1, which.max)
-  test.boosting.error2[i] <- 1-sum(diag(table(test.pred, dup.dat$stars)))/sum(table(test.pred, dup.dat$stars))
-}
-
-#randomforest
-test.rf.MSE <- rep(NA, length=1000)
-for(i in 1:1000){
-  set.seed(628)
-  rf.dat = randomForest(BODYFAT~.-IDNO-BODYFAT-DENSITY, data=train.dat, mtry = floor(sqrt(14)), ntree=i)
-  yhat.rf = predict(rf.dat, newdata = test.dat)
-  test.rf.MSE[i] <- sum((test.dat$BODYFAT-yhat.rf)^2)/dim(test.dat)[1]
-  }
-
-#bagging
-test.bag.MSE <- rep(NA, length=1000)
-for(i in 1:1000){
-  set.seed(628)
-  bag.dat = randomForest(BODYFAT~.-IDNO-BODYFAT-DENSITY, data=train.dat, mtry = 14, ntree=i)
-  yhat.bag = predict(bag.dat, newdata = test.dat)
-  test.bag.MSE[i] <- sum((test.dat$BODYFAT-yhat.bag)^2)/dim(test.dat)[1]
-  }
-
-ntree <- 1:1000
-plot(ntree, test.rf.MSE, type = 'l', ylab="MSE", col=2, ylim=c(10,60), lwd = 2)
-par(new=T)
-plot(ntree, test.bag.MSE, type = 'l', ylab="MSE", ylim=c(10,60), col=4)
-par(new=T)
-plot(ntree, test.boosting.MSE1, type = 'l', ylab="MSE", ylim=c(10,60), col=3)
-par(new=T)
-plot(ntree, test.boosting.MSE2, type = 'l', ylab="MSE", ylim=c(10,60), col=5)
-legend("topright", c("RandomForest","Bagging","Boosting: depth=1", "Boosting: depth=2"), lwd=c(1,1), col=c(2,4,3,5))
-
-
-#randomforest
-set.seed(628)
-rf.dat = randomForest(BODYFAT~.-IDNO-BODYFAT-DENSITY,data=train.dat, mtry = 14, ntree=1000)
-importance(rf.dat)
-varImpPlot(rf.dat)
-
-#boosting
-set.seed(628)
-boost.dat <- gbm(BODYFAT~.-IDNO-BODYFAT-DENSITY, data = train.dat, n.trees = 1000, interaction.depth = 2, distribution = "gaussian", shrinkage = min.lambda)
-summary(boost.dat)
-
-
 library(nnet)
-m1 <- multinom(stars~room+second+floor+nice+decor+furniture,data = dup.dat)
+m3 <- multinom(stars~room+second+floor+nice+decor+furniture,data = dup.dat)
 predict(m1,newdata = dup.dat)
 summary(m1)
 ```
+
+```{r}
+avg.hotel <- sort(tapply(dat$stars_x,dat$name,mean))
+par(cex.axis=0.40)
+barplot(avg.hotel, main = "Average Rate of Hotel in Madison", ylim = c(0,5),las=2)
+```
+```{r}
+review.len <- c()
+for(i in 1:length(names(avg.hotel))){
+review.len[i] <- length(dat$stars_x[which(dat$name==names(avg.hotel)[i])])
+}
+
+length(dat$stars_x[which(dat$name=="AC Hotel by Marriott Madison Downtown")])
+barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[22])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[22], cex.main = 0.7)
+
+ac.dat <- dat[which(dat$name=="AC Hotel by Marriott Madison Downtown"),-c(1,3:10)]
+ac.words <- apply(ac.dat[,2:dim(ac.dat)[2]],2,sum)
+sort(ac.words[ac.words>summary(ac.words)[5]], decreasing= TRUE)
+```
+
+```{r}
+word.ac.frequency <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(ac.dat$stars_x == 1))
+total.star2 <-length(which(ac.dat$stars_x == 2))
+total.star3 <-length(which(ac.dat$stars_x == 3))
+total.star4 <-length(which(ac.dat$stars_x == 4))
+total.star5 <-length(which(ac.dat$stars_x == 5))
+total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
+
+freq.dat <- cbind(ac.dat$stars_x,ac.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] >= 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] >= 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] >= 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] >= 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] >= 1))
+v <- c(star1, star2, star3, star4, star5)
+
+Frequency <- v/total.v
+
+barplot(Frequency, xlab = "Rates", ylab = "Word Frequency", main=ind)
+}
+```
+
+```{r}
+par(mfrow=c(3,3))
+word.ac.frequency("nice")
+word.ac.frequency("great")
+word.ac.frequency("good")
+word.ac.frequency("amazing")
+
+
+word.ac.frequency("friendly")
+word.ac.frequency("staff")
+word.ac.frequency("service")
+
+
+word.ac.frequency("room")
+word.ac.frequency("bar")
+word.ac.frequency("restaurant")
+
+word.ac.frequency("location")
+
+word.ac.frequency("view")
+word.ac.frequency("modern")
+word.ac.frequency("beautiful")
+```
+```{r}
+freq.mat <- matrix(rep(NA,5),nrow=5)
+for (i in 1:dim(star.dat)[2]-1){
+  freq.vec <- freq(colnames(star.dat)[i+1])
+  freq.mat <- cbind(freq.mat,freq.vec)
+}
+star.level <- levels(as.factor(star.dat$stars_x))
+freq.data <- freq.mat[,-(1:2)]
+colnames(freq.data) <- colnames(star.dat)[2:dim(star.dat)[2]]
+freq.data <- as.data.frame(cbind(star.level,freq.data))
+
+dup.dat <- star.dat
+for (i in 1:dim(star.dat)[2]-1){
+  dup.dat[which(star.dat[,i+1] >=1),i+1]=1
+}
+stars <- star.dat[,1]
+dup.dat <- cbind(stars,dup.dat[,-1])
+dup.dat$stars <- as.factor(dup.dat$stars)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```{r}
 dat2 <- read.csv("Data/df_tip.csv",header=TRUE)
