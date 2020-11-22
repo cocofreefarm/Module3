@@ -1,0 +1,566 @@
+---
+title: "Module3"
+author: "HanGyuKang"
+date: "11/15/2020"
+output: html_document
+---
+```{r}
+require(nnet)
+```
+
+```{r}
+dat <- read.csv("Data/df.csv",header=TRUE)
+star.dat <- dat[,c(2,11:dim(dat)[2])]
+```
+
+```{r}
+words <- apply(star.dat[,2:dim(star.dat)[2]],2,sum)
+
+wordembedding.dat <- star.dat
+for (i in 1:dim(star.dat)[2]-1){
+  wordembedding.dat[which(star.dat[,i+1] >=1),i+1]=1
+}
+stars <- star.dat[,1]
+wordembedding.dat <- wordembedding.dat[names(sort(words[words>summary(words)[5]], decreasing= TRUE))]
+wordembedding.dat <- cbind(stars,wordembedding.dat)
+wordembedding.dat$stars <- as.factor(wordembedding.dat$stars)
+```
+```{r}
+freq <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(wordembedding.dat$stars == 1))
+total.star2 <-length(which(wordembedding.dat$stars == 2))
+total.star3 <-length(which(wordembedding.dat$stars == 3))
+total.star4 <-length(which(wordembedding.dat$stars == 4))
+total.star5 <-length(which(wordembedding.dat$stars == 5))
+total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
+
+freq.dat <- cbind(star.dat$stars_x,star.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] >= 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] >= 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] >= 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] >= 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] >= 1))
+v <- c(star1, star2, star3, star4, star5)
+
+freq <- v/total.v
+freq
+}
+
+freq.mat <- matrix(rep(NA,5),nrow=5)
+for (i in 1:dim(star.dat)[2]-1){
+  freq.vec <- freq(colnames(star.dat)[i+1])
+  freq.mat <- cbind(freq.mat,freq.vec)
+}
+star.level <- levels(as.factor(star.dat$stars_x))
+freq.data <- freq.mat[,-(1:2)]
+names(sort(words[words>summary(words)[5]], decreasing= TRUE))
+freq.data <- as.data.frame(cbind(star.level,freq.data))
+
+```
+```{r}
+sort(words[words>summary(words)[5]], decreasing= TRUE)
+```
+
+```{r}
+word.frequency <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(wordembedding.dat$stars == 1))
+total.star2 <-length(which(wordembedding.dat$stars == 2))
+total.star3 <-length(which(wordembedding.dat$stars == 3))
+total.star4 <-length(which(wordembedding.dat$stars == 4))
+total.star5 <-length(which(wordembedding.dat$stars == 5))
+total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
+
+freq.dat <- cbind(wordembedding.dat$star,wordembedding.dat[,ind])
+star1 <-length(which(wordembedding.dat[,1] == 1 & freq.dat[,2] >= 1))
+star2 <-length(which(wordembedding.dat[,1] == 2 & freq.dat[,2] >= 1))
+star3 <-length(which(wordembedding.dat[,1] == 3 & freq.dat[,2] >= 1))
+star4 <-length(which(wordembedding.dat[,1] == 4 & freq.dat[,2] >= 1))
+star5 <-length(which(wordembedding.dat[,1] == 5 & freq.dat[,2] >= 1))
+v <- c(star1, star2, star3, star4, star5)
+
+Frequency <- v/total.v
+
+barplot(Frequency, xlab = "Rates", ylab = "Word Frequency", main=ind)
+}
+```
+
+```{r}
+par(mfrow=c(3,3))
+word.frequency("great")
+word.frequency("nice")
+word.frequency("good")
+word.frequency("bad")
+word.frequency("like")
+word.frequency("well")
+word.frequency("best")
+word.frequency("better")
+word.frequency("love")
+word.frequency("recommend")
+word.frequency("awesome")
+word.frequency("perfect")
+word.frequency("wonderful")
+word.frequency("enjoyed")
+word.frequency("excellent")
+```
+
+
+```{r}
+par(mfrow=c(3,3))
+word.frequency("staff")
+word.frequency("service")
+word.frequency("employee")
+word.frequency("manager")
+word.frequency("reservation")
+word.frequency("breakfast")
+word.frequency("coffee")
+word.frequency("drink")
+word.frequency("price")
+word.frequency("suite")
+word.frequency("bed")
+word.frequency("desk")
+word.frequency("wifi")
+word.frequency("tv")
+word.frequency("fridge")
+word.frequency("pillow")
+word.frequency("towel")
+```
+
+```{r}
+par(mfrow=c(3,3))
+word.frequency("room")
+word.frequency("bathroom")
+word.frequency("pool")
+word.frequency("tub")
+word.frequency("shower")
+word.frequency("lobby")
+word.frequency("elevator")
+word.frequency("wall")
+word.frequency("parking")
+word.frequency("gym")
+word.frequency("amenity")
+```
+```{r}
+par(mfrow=c(3,3))
+word.frequency("shuttle")
+word.frequency("downtown")
+word.frequency("airport")
+word.frequency("distance")
+word.frequency("bar")
+word.frequency("location")
+word.frequency("restaurant")
+word.frequency("park")
+word.frequency("near")
+```
+```{r}
+par(mfrow=c(3,3))
+word.frequency("family")
+word.frequency("kid")
+word.frequency("clean")
+word.frequency("comfortable")
+word.frequency("small")
+word.frequency("pretty")
+word.frequency("quiet")
+word.frequency("beautiful")
+word.frequency("spacious")
+word.frequency("modern")
+word.frequency("noise")
+word.frequency("smell")
+word.frequency("comfy")
+```
+
+```{r}
+freq <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(star.dat$stars_x == 1))
+total.star2 <-length(which(star.dat$stars_x == 2))
+total.star3 <-length(which(star.dat$stars_x == 3))
+total.star4 <-length(which(star.dat$stars_x == 4))
+total.star5 <-length(which(star.dat$stars_x == 5))
+total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
+
+freq.dat <- cbind(star.dat$stars_x,star.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] >= 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] >= 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] >= 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] >= 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] >= 1))
+v <- c(star1, star2, star3, star4, star5)
+
+freq <- v/total.v
+freq
+}
+
+freq.mat <- matrix(rep(NA,5),nrow=5)
+for (i in 1:dim(star.dat)[2]-1){
+  freq.vec <- freq(colnames(star.dat)[i+1])
+  freq.mat <- cbind(freq.mat,freq.vec)
+}
+star.level <- levels(as.factor(star.dat$stars_x))
+freq.data <- freq.mat[,-(1:2)]
+colnames(freq.data) <- colnames(star.dat)[2:dim(star.dat)[2]]
+freq.data <- as.data.frame(cbind(star.level,freq.data))
+
+wordembedding.dat <- star.dat
+for (i in 1:dim(star.dat)[2]-1){
+  wordembedding.dat[which(star.dat[,i+1] >=1),i+1]=1
+}
+stars <- star.dat[,1]
+wordembedding.dat <- cbind(stars,wordembedding.dat[,-1])
+wordembedding.dat$stars <- as.factor(wordembedding.dat$stars)
+```
+
+
+```{r}
+library(gbm)
+library(randomForest)
+```
+```{r}
+service.dat <- wordembedding.dat[c("stars","staff","service","employee","manager","reservation","breakfast","coffee","drink","price","suite","desk")]
+```
+```{r}
+facility.dat <- wordembedding.dat[c("stars","pool","shower","lobby","elevator","wall","parking","gym","amenity")]
+```
+```{r}
+location.dat <- wordembedding.dat[c("stars","shuttle","downtown","airport","distance","bar","location","restaurant","park","near")]
+```
+```{r}
+facility.dat <- wordembedding.dat[c("stars","family","kid","clean","comfortable","small","pretty","quiet","beautiful","spacious","modern","noise","smell","comfy")]
+```
+```{r}
+pow <- seq(-10, 0, by = 0.1)
+lambdas <- 10^pow
+test.boosting.error <- rep(NA, length(lambdas))
+for (i in 1:length(lambdas)) {
+  set.seed(6)
+  boost.m1 <- gbm(stars~., data = service.dat, n.trees=1000, interaction.depth = 1, distribution = "multinomial", shrinkage = lambdas[i])
+  test.pred <- apply(predict(boost.m1, service.dat, n.trees=1000), 1, which.max)
+  test.boosting.error[i] <- 1-sum(diag(table(test.pred, service.dat$stars)))/sum(table(test.pred, service.dat$stars))
+}
+plot(lambdas, test.boosting.error, type="b", xlab = "lambda", ylab="Classification Error Rate")
+
+min.lambda <- lambdas[which.min(test.boosting.error)]
+min.lambda
+
+test.boosting.error1 <- rep(NA, 1000)
+for (i in 1:1000) {
+  set.seed(6)
+  boost.m2 <- gbm(stars~., data = service.dat, n.trees=1000, interaction.depth = 1, distribution = "multinomial", shrinkage = min.lambda)
+  test.pred <- apply(predict(boost.m1, service.dat, n.trees=1000), 1, which.max)
+  test.boosting.error[i] <- 1-sum(diag(table(test.pred, service.dat$stars)))/sum(table(test.pred, service.dat$stars))
+}
+
+test.boosting.error2 <- rep(NA, 1000)
+for (i in 1:1000) {
+  set.seed(6)
+  boost.m3 <- gbm(stars~., data = service.dat, n.trees=1000, interaction.depth = 1, distribution = "multinomial", shrinkage = min.lambda)
+  test.pred <- apply(predict(boost.m1, service.dat, n.trees=1000), 1, which.max)
+  test.boosting.error[i] <- 1-sum(diag(table(test.pred, service.dat$stars)))/sum(table(test.pred, service.dat$stars))
+}
+
+#randomforest
+test.rf.error <- rep(NA, length=1000)
+for(i in 1:1000){
+  set.seed(6)
+  rf.m1 = randomForest(stars~., data=service.dat, mtry = floor(sqrt(13)), ntree=i)
+  yhat.rf = predict(rf.m1, newdata = service.dat)
+  test.rf.error[i] <- 1-(sum(diag(table(yhat.rf, service.dat$stars))))/sum(table(yhat.rf, service.dat$stars))
+  }
+
+#bagging
+test.bag.error <- rep(NA, length=1000)
+for(i in 1:1000){
+  set.seed(6)
+  bag.m1 = randomForest(stars~., data=service.dat, mtry = 13, ntree=i)
+  yhat.bag = predict(bag.m1, newdata = service.dat)
+  test.bag.error[i] <- 1-(sum(diag(table(yhat.bag, service.dat$stars))))/sum(table(yhat.bag, service.dat$stars))
+  }
+
+ntree <- 1:1000
+plot(ntree, test.rf.error, type = 'l', ylab="Classification Error Rate", ylim = c(0, 0.20), col=2, lwd = 2)
+par(new=T)
+plot(ntree, test.bag.error, type = 'l', ylab="Classification Error Rate", ylim = c(0, 0.20), col=4)
+par(new=T)
+plot(ntree, test.boosting.error1, type = 'l', ylab="Classification Error Rate", ylim = c(0, 0.20), col=3)
+par(new=T)
+plot(ntree, test.boosting.error2, type = 'l', ylab="Classification Error Rate", ylim = c(0, 0.20), col=5)
+legend("topright", c("RandomForest","Bagging","Boosting: depth=1", "Boosting: depth=2"), lwd=c(1,1), col=c(2,4,3,5))
+```
+```{r}
+m1 <- multinom(stars+1~staff+service+employee+manager+reservation+breakfast+coffee+drink+price+suite+desk,data=service.dat)
+m2 <- multinom(stars~service+employee+manager+reservation+breakfast+coffee+drink+price+suite+desk,data=service.dat)
+m3 <- multinom(stars~employee+manager+reservation+breakfast+coffee+drink+price+suite+desk,data=service.dat)
+m4 <- multinom(stars~manager+reservation+breakfast+coffee+drink+price+suite+desk,data=service.dat)
+m5 <- multinom(stars~reservation+breakfast+coffee+drink+price+suite+desk,data=service.dat)
+m6 <- multinom(stars~breakfast+coffee+drink+price+suite+desk,data=service.dat)
+m7 <- multinom(stars~coffee+drink+price+suite+desk,data=service.dat)
+m8 <- multinom(stars~drink+price+suite+desk,data=service.dat)
+m9 <- multinom(stars~price+suite+desk,data=service.dat)
+m10 <- multinom(stars~suite+desk,data=service.dat)
+m11 <- multinom(stars~desk,data=service.dat)
+AIC.vec <- c(m1$AIC,m2$AIC,m3$AIC,m4$AIC,m5$AIC,m6$AIC,m7$AIC,m8$AIC,m9$AIC,m10$AIC,m11$AIC)
+model <-c("m1","m2","m3","m4","m5","m6","m7","m8","m9","m10","m11")
+cbind(model,aic.vec)
+
+- summary(m1)$coefficient
+sd.coe <- summary(m1)$standard.errors
+p <- (1-pnorm(abs(z),0,1))*2 
+
+
+selected.model <- multinom(stars~staff+manager+reservation+breakfast+drink+price+desk,data=service.dat)
+predict(selected.model,service.dat)
+```
+```{r}
+#coffee #suite #service #employee
+```
+```{r}
+anova(lm(room+bath+pool+tub+shower+lobby+elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(bath+pool+tub+shower+lobby+elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(pool+tub+shower+lobby+elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(tub+shower+lobby+elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(shower+lobby+elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(lobby+elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(parking+facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(facility+gym+amenity~stars, data = wordembedding.dat))
+anova(lm(gym+amenity~stars, data = wordembedding.dat))
+anova(lm(amenity~stars, data = wordembedding.dat))
+
+anova(lm(shuttle+downtown+airport+bus+distance+bar+location+restaurant+park+security+near~stars, data = wordembedding.dat))
+anova(lm(downtown+airport+bus+distance+bar+location+restaurant+park+security+near~stars, data = wordembedding.dat))
+anova(lm(airport+bus+distance+bar+location+restaurant+park+security+near~stars, data = wordembedding.dat))
+anova(lm(bus+distance+bar+location+restaurant+park+security+near~stars, data = wordembedding.dat))
+anova(lm(distance+bar+location+restaurant+park+security+near~stars, data = wordembedding.dat))
+anova(lm(bar+location+restaurant+park+security+near~stars, data = wordembedding.dat))
+anova(lm(location+restaurant+park+security+near~stars, data = wordembedding.dat))
+anova(lm(restaurant+park+security+near~stars, data = wordembedding.dat))
+anova(lm(park+security+near~stars, data = wordembedding.dat))
+anova(lm(security+near~stars, data = wordembedding.dat))
+anova(lm(near~stars, data = wordembedding.dat))
+
+anova(lm(family+kid+clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(kid+clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(small+pretty+quiet+beautiful+spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(pretty+quiet+beautiful+spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(quiet+beautiful+spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(beautiful+spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(spacious+modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(modern+noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(noise+smell+comfy~stars, data = wordembedding.dat))
+anova(lm(smell+comfy~stars, data = wordembedding.dat))
+anova(lm(comfy~stars, data = wordembedding.dat))
+```
+```{r}
+anova(lm(room~stars, data = dup.dat))
+anova(lm(bed~stars, data = dup.dat))
+anova(lm(desk~stars, data = dup.dat))
+anova(lm(bathroom~stars, data = dup.dat))
+anova(lm(pool~stars, data = dup.dat))
+anova(lm(tub~stars, data = dup.dat))
+anova(lm(shower~stars, data = dup.dat))
+anova(lm(lobby~stars, data = dup.dat))
+anova(lm(wifi~stars, data = dup.dat))
+anova(lm(tv~stars, data = dup.dat))
+anova(lm(fridge~stars, data = dup.dat))
+anova(lm(window~stars, data = dup.dat))
+anova(lm(wall~stars, data = dup.dat))
+anova(lm(pillow~stars, data = dup.dat))
+anova(lm(parking~stars, data = dup.dat))
+anova(lm(suite~stars, data = dup.dat))
+anova(lm(facility~stars, data = dup.dat))
+anova(lm(towel~stars, data = dup.dat))
+anova(lm(gym~stars, data = dup.dat))
+```
+```{r}
+anova(lm(shuttle~stars, data = dup.dat))
+anova(lm(downtown~stars, data = dup.dat))
+anova(lm(airport~stars, data = dup.dat))
+anova(lm(bus~stars, data = dup.dat))
+anova(lm(drink~stars, data = dup.dat))
+anova(lm(distance~stars, data = dup.dat))
+anova(lm(bar~stars, data = dup.dat))
+anova(lm(location~stars, data = dup.dat))
+anova(lm(restaurant~stars, data = dup.dat))
+anova(lm(park~stars, data = dup.dat))
+anova(lm(security~stars, data = dup.dat))
+```
+```{r}
+anova(lm(family~stars, data = dup.dat))
+anova(lm(kid~stars, data = dup.dat))
+anova(lm(clean~stars, data = dup.dat))
+anova(lm(comfortable~stars, data = dup.dat))
+anova(lm(small~stars, data = dup.dat))
+anova(lm(pretty~stars, data = dup.dat))
+anova(lm(quiet~stars, data = dup.dat))
+anova(lm(beautiful~stars, data = dup.dat))
+anova(lm(spacious~stars, data = dup.dat))
+anova(lm(modern~stars, data = dup.dat))
+anova(lm(noise~stars, data = dup.dat))
+anova(lm(smell~stars, data = dup.dat))
+```
+
+```{r}
+
+m1 <- multinom(stars~staff+service+wait+rude+manager+helpful+decent+employee+friendly+management+reservation+breakfast+coffee+room+bed+desk+bathroom+pool+tub+shower+lobby+wifi+tv+elevator+fridge+window+wall+pillow+parking+suite+facility+towel+gym+shuttle+downtown+airport+bus+drink+distance+bar+location+restaurant+park+security+family+kid+clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell, data = wordembedding.dat)
+
+summary(m1)
+
+m2 <- multinom(stars~staff+employee+friendly+management+reservation+breakfast+coffee+room+bed+desk+bathroom+pool+tub+shower+lobby+wifi+tv+elevator+fridge+window+wall+pillow+parking+suite+facility+towel+gym+shuttle+downtown+airport+bus+drink+distance+bar+location+restaurant+park+security+family+kid+clean+comfortable+small+pretty+quiet+beautiful+spacious+modern+noise+smell, data = dup.dat)
+
+predict(m1, dup.dat)
+
+
+predict(m2, dup.dat)
+
+summary(m1)
+
+library(nnet)
+m3 <- multinom(stars~room+second+floor+nice+decor+furniture,data = dup.dat)
+predict(m1,newdata = dup.dat)
+summary(m1)
+```
+
+```{r}
+avg.hotel <- sort(tapply(dat$stars_x,dat$name,mean))
+avg.hotel[avg.hotel > avg.hotel["AC Hotel by Marriott Madison Downtown"]]
+barplot(avg.hotel[avg.hotel > avg.hotel["AC Hotel by Marriott Madison Downtown"]], main = "Average Rate of Hotel Greater than AC Hotel in Madison", ylim = c(0,5),las=2)
+```
+```{r}
+review.len <- c()
+for(i in 1:length(names(avg.hotel))){
+review.len[i] <- length(dat$stars_x[which(dat$name==names(avg.hotel)[i])])
+}
+
+length(dat$stars_x[which(dat$name=="AC Hotel by Marriott Madison Downtown")])
+barplot(table(dat$stars_x[which(dat$name==names(avg.hotel)[22])]),xlab="Stars",ylab="Number of Review", main=names(avg.hotel)[22], cex.main = 0.7)
+
+ac.dat <- dat[which(dat$name=="AC Hotel by Marriott Madison Downtown"),-c(1,3:10)]
+ac.words <- apply(ac.dat[,2:dim(ac.dat)[2]],2,sum)
+sort(ac.words[ac.words>summary(ac.words)[5]], decreasing= TRUE)
+```
+
+```{r}
+word.ac.frequency <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(ac.dat$stars_x == 1))
+total.star2 <-length(which(ac.dat$stars_x == 2))
+total.star3 <-length(which(ac.dat$stars_x == 3))
+total.star4 <-length(which(ac.dat$stars_x == 4))
+total.star5 <-length(which(ac.dat$stars_x == 5))
+total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
+
+freq.dat <- cbind(ac.dat$stars_x,ac.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] >= 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] >= 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] >= 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] >= 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] >= 1))
+v <- c(star1, star2, star3, star4, star5)
+
+Frequency <- v/total.v
+
+barplot(Frequency, xlab = "Rates", ylab = "Word Frequency", main=ind)
+}
+```
+
+```{r}
+par(mfrow=c(3,3))
+word.ac.frequency("nice")
+word.ac.frequency("great")
+word.ac.frequency("good")
+word.ac.frequency("amazing")
+
+
+word.ac.frequency("friendly")
+word.ac.frequency("staff")
+word.ac.frequency("service")
+
+
+word.ac.frequency("room")
+word.ac.frequency("bar")
+word.ac.frequency("restaurant")
+
+word.ac.frequency("location")
+
+word.ac.frequency("view")
+word.ac.frequency("modern")
+word.ac.frequency("beautiful")
+```
+```{r}
+freq.mat <- matrix(rep(NA,5),nrow=5)
+for (i in 1:dim(star.dat)[2]-1){
+  freq.vec <- freq(colnames(star.dat)[i+1])
+  freq.mat <- cbind(freq.mat,freq.vec)
+}
+star.level <- levels(as.factor(star.dat$stars_x))
+freq.data <- freq.mat[,-(1:2)]
+colnames(freq.data) <- colnames(star.dat)[2:dim(star.dat)[2]]
+freq.data <- as.data.frame(cbind(star.level,freq.data))
+
+dup.dat <- star.dat
+for (i in 1:dim(star.dat)[2]-1){
+  dup.dat[which(star.dat[,i+1] >=1),i+1]=1
+}
+stars <- star.dat[,1]
+dup.dat <- cbind(stars,dup.dat[,-1])
+dup.dat$stars <- as.factor(dup.dat$stars)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+dat2 <- read.csv("Data/df_tip.csv",header=TRUE)
+tip.dat <- dat2[,c(2,11:dim(dat2)[2])]
+tip.words <- apply(tip.dat[,2:dim(tip.dat)[2]],2,sum)
+sort(tip.words, decreasing= TRUE)
+
+word.tip.frequency <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(tip.dat$stars == 1))
+total.star1.5 <-length(which(tip.dat$stars == 1.5))
+total.star2 <-length(which(tip.dat$stars == 2))
+total.star2.5 <-length(which(tip.dat$stars == 2.5))
+total.star3 <-length(which(tip.dat$stars == 3))
+total.star3.5 <-length(which(tip.dat$stars == 3.5))
+total.star4 <-length(which(tip.dat$stars == 4))
+total.star4.5 <-length(which(tip.dat$stars == 4.5))
+total.star5 <-length(which(tip.dat$stars == 5))
+total.v <- c(total.star1,total.star1.5, total.star2, total.star2.5, total.star3, total.star3.5, total.star4,total.star4.5, total.star5)
+
+freq.dat <- cbind(tip.dat$stars,tip.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] >= 1))
+star1.5 <-length(which(freq.dat[,1] == 1.5 & freq.dat[,2] >= 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] >= 1))
+star2.5 <-length(which(freq.dat[,1] == 2.5 & freq.dat[,2] >= 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] >= 1))
+star3.5 <-length(which(freq.dat[,1] == 3.5 & freq.dat[,2] >= 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] >= 1))
+star4.5 <-length(which(freq.dat[,1] == 4.5 & freq.dat[,2] >= 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] >= 1))
+v <- c(star1, star1.5, star2, star2.5, star3, star3.5, star4, star4.5, star5)
+
+Frequency <- v/total.v
+
+barplot(Frequency, xlab = "Rates", ylab = "Word Frequency", main=ind)
+}
+
+word.tip.frequency("room")
+```
