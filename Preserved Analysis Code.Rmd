@@ -213,93 +213,305 @@ wordembedding.dat$stars <- as.factor(wordembedding.dat$stars)
 
 
 ```{r}
-library(gbm)
-library(randomForest)
-```
-```{r}
-service.dat <- wordembedding.dat[c("stars","staff","service","employee","manager","reservation","breakfast","coffee","drink","price","suite","bed","desk","wifi","tv","fridge","pillow","towel")]
-```
-```{r}
-facility.dat <- wordembedding.dat[c("stars","room","bathroom","pool","tub","shower","lobby","elevator","wall","parking","gym","amenity")]
-```
-```{r}
-location.dat <- wordembedding.dat[c("stars","shuttle","downtown","airport","distance","bar","location","restaurant","park","near")]
-```
-```{r}
-facility.dat <- wordembedding.dat[c("stars","family","kid","clean","comfortable","small","pretty","quiet","beautiful","spacious","modern","noise","smell","comfy")]
-```
-```{r}
-pow <- seq(-10, 0, by = 0.1)
-lambdas <- 10^pow
-test.boosting.error <- rep(NA, length(lambdas))
-for (i in 1:length(lambdas)) {
-  set.seed(6)
-  boost.m1 <- gbm(stars~., data = service.dat, n.trees=1000, interaction.depth = 1, distribution = "multinomial", shrinkage = lambdas[i])
-  test.pred <- apply(predict(boost.m1, service.dat, n.trees=1000), 1, which.max)
-  test.boosting.error[i] <- 1-sum(diag(table(test.pred, service.dat$stars)))/sum(table(test.pred, service.dat$stars))
-}
-plot(lambdas, test.boosting.error, type="b", xlab = "lambda", ylab="Classification Error Rate")
+test.dat <- wordembedding.dat[c("stars","staff", "manager", "breakfast", "desk","parking","wall","location","bar","clean","comfortable","spacious","smell")]
 
-min.lambda <- lambdas[which.min(test.boosting.error)]
-min.lambda
-
-test.boosting.error1 <- rep(NA, 1000)
-for (i in 1:1000) {
-  set.seed(6)
-  boost.m2 <- gbm(stars~., data = service.dat, n.trees=1000, interaction.depth = 1, distribution = "multinomial", shrinkage = min.lambda)
-  test.pred <- apply(predict(boost.m1, service.dat, n.trees=1000), 1, which.max)
-  test.boosting.error[i] <- 1-sum(diag(table(test.pred, service.dat$stars)))/sum(table(test.pred, service.dat$stars))
-}
-
-test.boosting.error2 <- rep(NA, 1000)
-for (i in 1:1000) {
-  set.seed(6)
-  boost.m3 <- gbm(stars~., data = service.dat, n.trees=1000, interaction.depth = 1, distribution = "multinomial", shrinkage = min.lambda)
-  test.pred <- apply(predict(boost.m1, service.dat, n.trees=1000), 1, which.max)
-  test.boosting.error[i] <- 1-sum(diag(table(test.pred, service.dat$stars)))/sum(table(test.pred, service.dat$stars))
-}
-
-#randomforest
-test.rf.error <- rep(NA, length=1000)
-for(i in 1:1000){
-  set.seed(6)
-  rf.m1 = randomForest(stars~., data=service.dat, mtry = floor(sqrt(13)), ntree=i)
-  yhat.rf = predict(rf.m1, newdata = service.dat)
-  test.rf.error[i] <- 1-(sum(diag(table(yhat.rf, service.dat$stars))))/sum(table(yhat.rf, service.dat$stars))
+staff <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,2]==1){
+    if (test.dat[i,]$stars==1){
+    staff[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    staff[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    staff[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    staff[i] = 4
+    }
+    else {
+    staff[i] = 5
+    }
   }
-
-#bagging
-test.bag.error <- rep(NA, length=1000)
-for(i in 1:1000){
-  set.seed(6)
-  bag.m1 = randomForest(stars~., data=service.dat, mtry = 13, ntree=i)
-  yhat.bag = predict(bag.m1, newdata = service.dat)
-  test.bag.error[i] <- 1-(sum(diag(table(yhat.bag, service.dat$stars))))/sum(table(yhat.bag, service.dat$stars))
+  else{
+    staff[i] = 3
   }
+}
 
-ntree <- 1:1000
-plot(ntree, test.rf.error, type = 'l', ylab="Classification Error Rate", ylim = c(0, 0.20), col=2, lwd = 2)
-par(new=T)
-plot(ntree, test.bag.error, type = 'l', ylab="Classification Error Rate", ylim = c(0, 0.20), col=4)
-par(new=T)
-plot(ntree, test.boosting.error1, type = 'l', ylab="Classification Error Rate", ylim = c(0, 0.20), col=3)
-par(new=T)
-plot(ntree, test.boosting.error2, type = 'l', ylab="Classification Error Rate", ylim = c(0, 0.20), col=5)
-legend("topright", c("RandomForest","Bagging","Boosting: depth=1", "Boosting: depth=2"), lwd=c(1,1), col=c(2,4,3,5))
-```
-```{r}
-m1 <- multinom(stars~.,data=service.dat)
+manager <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,3]==1){
+    if (test.dat[i,]$stars==1){
+    manager[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    manager[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    manager[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    manager[i] = 4
+    }
+    else {
+    manager[i] = 5
+    }
+  }
+  else{
+    manager[i] = 3
+  }
+}
 
-stat <- summary(m1)$coefficient/summary(m1)$standard.errors
-p.val <- 2*(pnorm(abs(stat),0,1,lower.tail = FALSE))
-p.val
+breakfast <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,4]==1){
+    if (test.dat[i,]$stars==1){
+    breakfast[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    breakfast[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    breakfast[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    breakfast[i] = 4
+    }
+    else {
+    breakfast[i] = 5
+    }
+  }
+  else{
+    breakfast[i] = 3
+  }
+}
 
-AIC.vec <- c(m1$AIC,m2$AIC,m3$AIC,m4$AIC,m5$AIC,m6$AIC,m7$AIC,m8$AIC,m9$AIC,m10$AIC,m11$AIC)
-model <-c("m1","m2","m3","m4","m5","m6","m7","m8","m9","m10","m11")
-cbind(model,aic.vec)
+desk <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,5]==1){
+    if (test.dat[i,]$stars==1){
+    desk[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    desk[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    desk[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    desk[i] = 4
+    }
+    else {
+    desk[i] = 5
+    }
+  }
+  else{
+    desk[i] = 3
+  }
+}
 
-selected.model <- multinom(stars~staff+manager+reservation+breakfast+drink+price+desk,data=service.dat)
-predict(selected.model,service.dat)
+parking <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,6]==1){
+    if (test.dat[i,]$stars==1){
+    parking[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    parking[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    parking[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    parking[i] = 4
+    }
+    else {
+    parking[i] = 5
+    }
+  }
+  else{
+    parking[i] = 3
+  }
+}
+
+wall <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,7]==1){
+    if (test.dat[i,]$stars==1){
+    wall[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    wall[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    wall[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    wall[i] = 4
+    }
+    else {
+    wall[i] = 5
+    }
+  }
+  else{
+    wall[i] = 3
+  }
+}
+
+location <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,8]==1){
+    if (test.dat[i,]$stars==1){
+    location[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    location[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    location[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    location[i] = 4
+    }
+    else {
+    location[i] = 5
+    }
+  }
+  else{
+    location[i] = 3
+  }
+}
+
+bar <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,9]==1){
+    if (test.dat[i,]$stars==1){
+    bar[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    bar[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    bar[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    bar[i] = 4
+    }
+    else {
+    bar[i] = 5
+    }
+  }
+  else{
+    bar[i] = 3
+  }
+}
+
+clean <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,10]==1){
+    if (test.dat[i,]$stars==1){
+    clean[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    clean[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    clean[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    clean[i] = 4
+    }
+    else {
+    clean[i] = 5
+    }
+  }
+  else{
+    clean[i] = 3
+  }
+}
+
+comfortable <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,11]==1){
+    if (test.dat[i,]$stars==1){
+    comfortable[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    comfortable[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    comfortable[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    comfortable[i] = 4
+    }
+    else {
+    comfortable[i] = 5
+    }
+  }
+  else{
+    comfortable[i] = 3
+  }
+}
+
+spacious <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,12]==1){
+    if (test.dat[i,]$stars==1){
+    spacious[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    spacious[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    spacious[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    spacious[i] = 4
+    }
+    else {
+    spacious[i] = 5
+    }
+  }
+  else{
+    spacious[i] = 3
+  }
+}
+
+smell <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,13]==1){
+    if (test.dat[i,]$stars==1){
+    smell[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    smell[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    smell[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    smell[i] = 4
+    }
+    else {
+    smell[i] = 5
+    }
+  }
+  else{
+    smell[i] = 3
+  }
+}
+
+stars <- as.factor(test.dat$stars)
+eval.dat <- as.data.frame(cbind(stars,staff,manager,breakfast,desk,parking,wall,location,bar,clean,comfortable,spacious,smell))
+
+eval.m <- multinom(stars~.,data=eval.dat)
+summary(eval.m)
+table(predict(eval.m,eval.dat),stars)
+
+
+sum(diag(table(predict(eval.m,eval.dat),stars)))/sum(table(predict(eval.m,eval.dat),stars))
 ```
 ```{r}
 #coffee #suite #service #employee
