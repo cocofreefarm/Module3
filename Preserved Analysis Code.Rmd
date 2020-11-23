@@ -513,9 +513,11 @@ table(predict(eval.m,eval.dat),stars)
 
 sum(diag(table(predict(eval.m,eval.dat),stars)))/sum(table(predict(eval.m,eval.dat),stars))
 ```
+
 ```{r}
-#coffee #suite #service #employee
+
 ```
+
 ```{r}
 anova(lm(room+bath+pool+tub+shower+lobby+elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
 anova(lm(bath+pool+tub+shower+lobby+elevator+wall+parking+facility+gym+amenity~stars, data = wordembedding.dat))
