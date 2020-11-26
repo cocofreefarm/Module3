@@ -82,9 +82,10 @@ for (i in 1:23){
    ref <- c(ref,temp) 
 }
 
-lowerhotel.dat <- dat[ref,-c(1,3:10)]
+lowerhotel.dat <- wordembedding.dat[ref,]
 stars <- lowerhotel.dat[,1]
 lowerhotel.dat <- cbind(stars, lowerhotel.dat[names(sort(words[words>summary(words)[5]], decreasing= TRUE))])
+lowerhotel.dat$stars <- as.factor(lowerhotel.dat$stars)
 ```
 ```{r}
 length(avg.hotel[avg.hotel > 3.5])
@@ -106,9 +107,10 @@ for (i in 1:23){
    ref <- c(ref,temp) 
 }
 
-betterhotel.dat <- dat[ref,-c(1,3:10)]
+betterhotel.dat <- wordembedding.dat[ref,]
 stars <- betterhotel.dat[,1]
 betterhotel.dat <- cbind(stars, betterhotel.dat[names(sort(words[words>summary(words)[5]], decreasing= TRUE))])
+betterhotel.dat$stars <- as.factor(betterhotel.dat$stars)
 ```
 
 
@@ -155,8 +157,6 @@ freq <- v/total.v
 freq
 }
 
-
-
 freq.lower.mat <- matrix(rep(NA,5),nrow=5)
 for (i in 1:dim(lowerhotel.dat)[2]-2){
   freq.lower.vec <- lower.freq(colnames(lowerhotel.dat)[i+2])
@@ -178,20 +178,106 @@ colnames(freq.lower.mat) <- names(wordembedding.dat)[-1]
 colnames(freq.higher.mat) <- names(wordembedding.dat)[-1]
 
 grade <- rep("lower",5)
-lower.freq.dat <- as.data.frame(cbind(grade,stars,freq.lower.mat))
+lower.freq.dat <- type.convert(as.data.frame(cbind(grade,stars,freq.lower.mat)))
+lower.freq.dat$stars <- as.factor(lower.freq.dat$stars)
 
 grade <- rep("better",5)
-better.freq.dat <- as.data.frame(cbind(grade,stars,freq.higher.mat))
+better.freq.dat <- type.convert(as.data.frame(cbind(grade,stars,freq.higher.mat)))
+better.freq.dat$stars <- as.factor(better.freq.dat$stars)
 
 frequency.dat <- rbind(lower.freq.dat,better.freq.dat)
-frequency.dat <- type.convert(frequency.dat)
-frequency.dat$stars <- as.factor(frequency.dat$stars)
+```
+```{r}
+test.proportion <- function(star,argument1){
+ind <- argument1
+total.lower.star1 <-length(which(lowerhotel.dat$stars == 1))
+total.lower.star2 <-length(which(lowerhotel.dat$stars == 2))
+total.lower.star3 <-length(which(lowerhotel.dat$stars == 3))
+total.lower.star4 <-length(which(lowerhotel.dat$stars == 4))
+total.lower.star5 <-length(which(lowerhotel.dat$stars == 5))
+total.lower.v <- c(total.lower.star1,total.lower.star2,total.lower.star3,total.lower.star4,total.lower.star5)
+
+freq.lower.dat <- cbind(lowerhotel.dat$stars, lowerhotel.dat[,ind])
+lower.star1 <-length(which(freq.lower.dat[,1] == 1 & freq.lower.dat[,2] == 1))
+lower.star2 <-length(which(freq.lower.dat[,1] == 2 & freq.lower.dat[,2] == 1))
+lower.star3 <-length(which(freq.lower.dat[,1] == 3 t& freq.lower.dat[,2] == 1))
+lower.star4 <-length(which(freq.lower.dat[,1] == 4 & freq.lower.dat[,2] == 1))
+lower.star5 <-length(which(freq.lower.dat[,1] == 5 & freq.lower.dat[,2] == 1))
+lower.v <- c(lower.star1, lower.star2, lower.star3, lower.star4, lower.star5)
+
+lower.dat <- cbind(lower.v,total.lower.v)
+
+total.better.star1 <-length(which(betterhotel.dat$stars == 1))
+total.better.star2 <-length(which(betterhotel.dat$stars == 2))
+total.better.star3 <-length(which(betterhotel.dat$stars == 3))
+total.better.star4 <-length(which(betterhotel.dat$stars == 4))
+total.better.star5 <-length(which(betterhotel.dat$stars == 5))
+total.better.v <- c(total.better.star1,total.better.star2,total.better.star3,total.better.star4,total.better.star5)
+
+freq.better.dat <- cbind(betterhotel.dat$stars, betterhotel.dat[,ind])
+better.star1 <-length(which(freq.better.dat[,1] == 1 & freq.better.dat[,2] == 1))
+better.star2 <-length(which(freq.better.dat[,1] == 2 & freq.better.dat[,2] == 1))
+better.star3 <-length(which(freq.better.dat[,1] == 3 & freq.better.dat[,2] == 1))
+better.star4 <-length(which(freq.better.dat[,1] == 4 & freq.better.dat[,2] == 1))
+better.star5 <-length(which(freq.better.dat[,1] == 5 & freq.better.dat[,2] == 1))
+better.v <- c(better.star1, better.star2, better.star3, better.star4, better.star5)
+
+better.dat <- cbind(better.v,total.better.v)
+
+prop.test(x=c(lower.dat[star,1],better.dat[star,1]),n=c(lower.dat[star,2],better.dat[star,2]))
+}
+
+test.proportion(1:3,"staff")
 ```
 
 
-
 ```{r}
-
+t.test(lowerhotel.dat[,"booked"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"booked"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"money"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"money"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"staff"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"staff"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"manager"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"manager"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"breakfast"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"breakfast"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"desk"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"desk"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"wall"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"wall"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"toilet"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"toilet"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"parking"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"parking"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"bar"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"bar"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"downtown"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"downtown"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"restaurant"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"restaurant"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"location"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"location"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"clean"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"clean"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"comfortable"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"comfortable"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"spacious"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"spacious"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"quiet"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"quiet"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"smell"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"smell"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"modern"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"modern"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"pretty"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"pretty"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"comfy"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"comfy"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"dirty"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"dirty"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+```
+```{r}
+t.test(better.freq.dat$booked[1:2],lower.freq.dat$booked[1:2],paired=T)
+t.test(better.freq.dat$money[1:2],lower.freq.dat$money[1:2],paired=T)
+t.test(better.freq.dat$staff[1:2],lower.freq.dat$staff[1:2],paired=T)
+t.test(better.freq.dat$manager[1:2],lower.freq.dat$manager[1:2],paired=T)
+t.test(better.freq.dat$breakfast[1:2],lower.freq.dat$breakfast[1:2],paired=T)
+t.test(better.freq.dat$desk[1:2],lower.freq.dat$desk[1:2],paired=T)
+t.test(better.freq.dat$wall[1:2],lower.freq.dat$wall[1:2],paired=T)
+t.test(better.freq.dat$toilet[1:2],lower.freq.dat$toilet[1:2],paired=T)
+t.test(better.freq.dat$parking[1:2],lower.freq.dat$parking[1:2],paired=T)
+t.test(better.freq.dat$bar[1:2],lower.freq.dat$bar[1:2],paired=T)
+t.test(better.freq.dat$downtown[1:2],lower.freq.dat$downtown[1:2],paired=T)
+t.test(better.freq.dat$restaurant[1:2],lower.freq.dat$restaurant[1:2],paired=T)
+t.test(better.freq.dat$location[1:2],lower.freq.dat$location[1:2],paired=T)
+t.test(better.freq.dat$clean[1:2],lower.freq.dat$clean[1:2],paired=T)
+t.test(better.freq.dat$comfortable[1:2],lower.freq.dat$comfortable[1:2],paired=T)
+t.test(better.freq.dat$spacious[1:2],lower.freq.dat$spacious[1:2],paired=T)
+t.test(better.freq.dat$quiet[1:2],lower.freq.dat$quiet[1:2],paired=T)
+t.test(better.freq.dat$smell[1:2],lower.freq.dat$smell[1:2],paired=T)
+t.test(better.freq.dat$modern[1:2],lower.freq.dat$modern[1:2],paired=T)
+t.test(better.freq.dat$pretty[1:2],lower.freq.dat$pretty[1:2],paired=T)
+t.test(better.freq.dat$comfy[1:2],lower.freq.dat$comfy[1:2],paired=T)
+t.test(better.freq.dat$dirty[1:2],lower.freq.dat$dirty[1:2],paired=T)
 ```
 
 ```{r}
