@@ -429,6 +429,47 @@ wordembedding.dat <- cbind(stars,wordembedding.dat[,-1])
 wordembedding.dat$stars <- as.factor(wordembedding.dat$stars)
 ```
 
+```{r}
+#porportion function
+test.ac.proportion <- function(star,argument1){
+ind <- argument1
+total.ac.star1 <-length(which(ac.dat$stars == 1))
+total.ac.star2 <-length(which(ac.dat$stars == 2))
+total.ac.star3 <-length(which(ac.dat$stars == 3))
+total.ac.star4 <-length(which(ac.dat$stars == 4))
+total.ac.star5 <-length(which(ac.dat$stars == 5))
+total.ac.v <- c(total.ac.star1,total.ac.star2,total.ac.star3,total.ac.star4,total.ac.star5)
+
+freq.ac.dat <- cbind(ac.dat$stars, ac.dat[,ind])
+ac.star1 <-length(which(freq.ac.dat[,1] == 1 & freq.ac.dat[,2] == 1))
+ac.star2 <-length(which(freq.ac.dat[,1] == 2 & freq.ac.dat[,2] == 1))
+ac.star3 <-length(which(freq.ac.dat[,1] == 3 & freq.ac.dat[,2] == 1))
+ac.star4 <-length(which(freq.ac.dat[,1] == 4 & freq.ac.dat[,2] == 1))
+ac.star5 <-length(which(freq.ac.dat[,1] == 5 & freq.ac.dat[,2] == 1))
+ac.v <- c(ac.star1, ac.star2, ac.star3, ac.star4, ac.star5)
+
+ac.dat <- cbind(ac.v,total.ac.v)
+
+total.better.star1 <-length(which(betterhotel.dat$stars == 1))
+total.better.star2 <-length(which(betterhotel.dat$stars == 2))
+total.better.star3 <-length(which(betterhotel.dat$stars == 3))
+total.better.star4 <-length(which(betterhotel.dat$stars == 4))
+total.better.star5 <-length(which(betterhotel.dat$stars == 5))
+total.better.v <- c(total.better.star1,total.better.star2,total.better.star3,total.better.star4,total.better.star5)
+
+freq.better.dat <- cbind(betterhotel.dat$stars, betterhotel.dat[,ind])
+better.star1 <-length(which(freq.better.dat[,1] == 1 & freq.better.dat[,2] == 1))
+better.star2 <-length(which(freq.better.dat[,1] == 2 & freq.better.dat[,2] == 1))
+better.star3 <-length(which(freq.better.dat[,1] == 3 & freq.better.dat[,2] == 1))
+better.star4 <-length(which(freq.better.dat[,1] == 4 & freq.better.dat[,2] == 1))
+better.star5 <-length(which(freq.better.dat[,1] == 5 & freq.better.dat[,2] == 1))
+better.v <- c(better.star1, better.star2, better.star3, better.star4, better.star5)
+
+better.dat <- cbind(better.v,total.better.v)
+
+prop.test(x=c(ac.dat[star,1],better.dat[star,1]),n=c(ac.dat[star,2],better.dat[star,2]))
+}
+```
 
 ```{r}
 test.dat <- wordembedding.dat[c("stars","staff", "manager", "breakfast", "desk","parking","wall","location","bar","clean","comfortable","spacious","smell")]
