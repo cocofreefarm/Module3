@@ -472,11 +472,60 @@ prop.test(x=c(ac.dat[star,1],better.dat[star,1]),n=c(ac.dat[star,2],better.dat[s
 ```
 
 ```{r}
-test.dat <- wordembedding.dat[c("stars","staff", "manager", "breakfast", "desk","parking","wall","location","bar","clean","comfortable","spacious","smell")]
+test.dat <- wordembedding.dat[c("stars","booked","money","staff", "manager", "breakfast", "desk","wall","toilet","parking","bar","downtown","restaurant","location","clean","comfortable","spacious","quiet","smell","modern","pretty","comfy","dirty")]
+
+booked <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,2]==1){
+    if (test.dat[i,]$stars==1){
+    booked[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    booked[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    booked[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    booked[i] = 4
+    }
+    else {
+    booked[i] = 5
+    }
+  }
+  else{
+    booked[i] = 3
+  }
+}
+
+money <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,3]==1){
+    if (test.dat[i,]$stars==1){
+    money[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    money[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    money[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    money[i] = 4
+    }
+    else {
+    money[i] = 5
+    }
+  }
+  else{
+    money[i] = 3
+  }
+}
+
 
 staff <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,2]==1){
+  if (test.dat[i,4]==1){
     if (test.dat[i,]$stars==1){
     staff[i] = 1
     }
@@ -500,7 +549,7 @@ for(i in 1:dim(test.dat)[1]){
 
 manager <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,3]==1){
+  if (test.dat[i,5]==1){
     if (test.dat[i,]$stars==1){
     manager[i] = 1
     }
@@ -524,7 +573,7 @@ for(i in 1:dim(test.dat)[1]){
 
 breakfast <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,4]==1){
+  if (test.dat[i,6]==1){
     if (test.dat[i,]$stars==1){
     breakfast[i] = 1
     }
@@ -548,7 +597,7 @@ for(i in 1:dim(test.dat)[1]){
 
 desk <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,5]==1){
+  if (test.dat[i,7]==1){
     if (test.dat[i,]$stars==1){
     desk[i] = 1
     }
@@ -570,33 +619,9 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
-parking <- c()
-for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,6]==1){
-    if (test.dat[i,]$stars==1){
-    parking[i] = 1
-    }
-    else if(test.dat[i,]$stars==2){
-    parking[i] = 2
-    }
-    else if(test.dat[i,]$stars==3){
-    parking[i] = 3
-    }
-    else if(test.dat[i,]$stars==4){
-    parking[i] = 4
-    }
-    else {
-    parking[i] = 5
-    }
-  }
-  else{
-    parking[i] = 3
-  }
-}
-
 wall <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,7]==1){
+  if (test.dat[i,8]==1){
     if (test.dat[i,]$stars==1){
     wall[i] = 1
     }
@@ -618,33 +643,57 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
-location <- c()
+toilet <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,8]==1){
+  if (test.dat[i,9]==1){
     if (test.dat[i,]$stars==1){
-    location[i] = 1
+    toilet[i] = 1
     }
     else if(test.dat[i,]$stars==2){
-    location[i] = 2
+    toilet[i] = 2
     }
     else if(test.dat[i,]$stars==3){
-    location[i] = 3
+    toilet[i] = 3
     }
     else if(test.dat[i,]$stars==4){
-    location[i] = 4
+    toilet[i] = 4
     }
     else {
-    location[i] = 5
+    toilet[i] = 5
     }
   }
   else{
-    location[i] = 3
+    toilet[i] = 3
+  }
+}
+
+parking <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,10]==1){
+    if (test.dat[i,]$stars==1){
+    parking[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    parking[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    parking[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    parking[i] = 4
+    }
+    else {
+    parking[i] = 5
+    }
+  }
+  else{
+    parking[i] = 3
   }
 }
 
 bar <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,9]==1){
+  if (test.dat[i,11]==1){
     if (test.dat[i,]$stars==1){
     bar[i] = 1
     }
@@ -666,9 +715,82 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
+downtown <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,12]==1){
+    if (test.dat[i,]$stars==1){
+    downtown[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    downtown[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    downtown[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    downtown[i] = 4
+    }
+    else {
+    downtown[i] = 5
+    }
+  }
+  else{
+    downtown[i] = 3
+  }
+}
+
+restaurant <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,13]==1){
+    if (test.dat[i,]$stars==1){
+    restaurant[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    restaurant[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    restaurant[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    restaurant[i] = 4
+    }
+    else {
+    restaurant[i] = 5
+    }
+  }
+  else{
+    restaurant[i] = 3
+  }
+}
+
+
+location <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,14]==1){
+    if (test.dat[i,]$stars==1){
+    location[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    location[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    location[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    location[i] = 4
+    }
+    else {
+    location[i] = 5
+    }
+  }
+  else{
+    location[i] = 3
+  }
+}
+
 clean <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,10]==1){
+  if (test.dat[i,15]==1){
     if (test.dat[i,]$stars==1){
     clean[i] = 1
     }
@@ -692,7 +814,7 @@ for(i in 1:dim(test.dat)[1]){
 
 comfortable <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,11]==1){
+  if (test.dat[i,16]==1){
     if (test.dat[i,]$stars==1){
     comfortable[i] = 1
     }
@@ -716,7 +838,7 @@ for(i in 1:dim(test.dat)[1]){
 
 spacious <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,12]==1){
+  if (test.dat[i,17]==1){
     if (test.dat[i,]$stars==1){
     spacious[i] = 1
     }
@@ -738,9 +860,33 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
+quiet <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,18]==1){
+    if (test.dat[i,]$stars==1){
+    quiet[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    quiet[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    quiet[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    quiet[i] = 4
+    }
+    else {
+    quiet[i] = 5
+    }
+  }
+  else{
+    quiet[i] = 3
+  }
+}
+
 smell <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,13]==1){
+  if (test.dat[i,19]==1){
     if (test.dat[i,]$stars==1){
     smell[i] = 1
     }
@@ -759,6 +905,102 @@ for(i in 1:dim(test.dat)[1]){
   }
   else{
     smell[i] = 3
+  }
+}
+
+modern <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,20]==1){
+    if (test.dat[i,]$stars==1){
+    modern[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    modern[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    modern[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    modern[i] = 4
+    }
+    else {
+    modern[i] = 5
+    }
+  }
+  else{
+    modern[i] = 3
+  }
+}
+
+pretty <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,21]==1){
+    if (test.dat[i,]$stars==1){
+    pretty[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    pretty[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    pretty[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    pretty[i] = 4
+    }
+    else {
+    pretty[i] = 5
+    }
+  }
+  else{
+    pretty[i] = 3
+  }
+}
+
+comfy <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,22]==1){
+    if (test.dat[i,]$stars==1){
+    comfy[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    comfy[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    comfy[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    comfy[i] = 4
+    }
+    else {
+    comfy[i] = 5
+    }
+  }
+  else{
+    comfy[i] = 3
+  }
+}
+
+dirty <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,23]==1){
+    if (test.dat[i,]$stars==1){
+    dirty[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    dirty[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    dirty[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    dirty[i] = 4
+    }
+    else {
+    dirty[i] = 5
+    }
+  }
+  else{
+    dirty[i] = 3
   }
 }
 
