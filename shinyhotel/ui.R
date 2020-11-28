@@ -1,11 +1,6 @@
 library(shiny)
 library(ggplot2)
 
-#Loading data and model
-#data <- read.csv()
-#model <- 
-
-
 ui = fluidPage(
     titlePanel(h1(id = "title","Hotel Analysis based on Yelp ",align = "center")),
     tags$style(HTML("#title{font-size: 50px;font-family: Georgia;}")),
@@ -65,7 +60,7 @@ ui = fluidPage(
         
         
         p("Please provide the following information and then click Calculate Button:"),
-        fluidRow(column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable1", "Service",c("Accept Reservation","Accept Credit Cards","Good Staff","Decent Manager","Provide Breakfast","Have Desk"))),
+        fluidRow(column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable1", "Service",c("Accept Reservation","Proper Price","Good Staff","Decent Manager","Provide Breakfast","Have Desk"))),
                  column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable2", "Facility",c("Nice Wall","Parking Lot Available")))),
         fluidRow(column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable3", "Location",c("Near Bar","Downtown","Near Restaurant","Nice Location"))),
                  column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable4", "Atmosphere",c("Clean","Comfortable","Spacious","Quiet","Smell good","Modern","Pretty","Comfy","Dirty")))),
@@ -77,7 +72,7 @@ ui = fluidPage(
       
       mainPanel(
         tabsetPanel(
-          tabPanel("Prediction"),
+          tabPanel("Customers' Evaluation", h3("Overall:"),textOutput("Overall"),plotOutput(outputId="barplot"),h3("Service:"),textOutput("Service"),h3("Facility"),textOutput("Facility"),h3("Location"),textOutput("Location"),h3("Atmosphere"),textOutput("Atmosphere")),
           tabPanel("Plot"),
           #The plot should be wordcloud based on python
           
@@ -92,3 +87,4 @@ ui = fluidPage(
       )
     )
 )
+

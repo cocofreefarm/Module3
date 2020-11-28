@@ -14,12 +14,11 @@ star.dat <- dat[,c(2,11:dim(dat)[2])]
 ```
 
 ```{r}
-words <- apply(star.dat[,2:dim(star.dat)[2]],2,sum)
-
 wordembedding.dat <- star.dat
 for (i in 1:dim(star.dat)[2]-1){
   wordembedding.dat[which(star.dat[,i+1] >=1),i+1]=1
 }
+words <- apply(wordembedding.dat[,2:dim(star.dat)[2]],2,sum)
 stars <- star.dat[,1]
 wordembedding.dat <- wordembedding.dat[names(sort(words[words>summary(words)[5]], decreasing= TRUE))]
 wordembedding.dat <- cbind(stars,wordembedding.dat)

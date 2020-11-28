@@ -1,79 +1,126 @@
-dat <- read.csv("Data/df.csv",header=TRUE)
-star.dat <- dat[,c(2,5,11:dim(dat)[2])]
+dat <- read.csv("wordembedding.csv",header=TRUE)
 
-wordembedding.dat <- star.dat[,-c(1,2)]
-for (i in 1:dim(wordembedding.dat)[2]){
-  wordembedding.dat[which(wordembedding.dat[,i] >=1),i]=1
-}
-
-words <- apply(wordembedding.dat[,1:dim(wordembedding.dat)[2]],2,sum)
-
-stars <- star.dat[,1]
-name <- star.dat[,2]
-wordembedding.dat <- wordembedding.dat[names(sort(words[words>summary(words)[5]], decreasing= TRUE))]
-wordembedding.dat <- cbind(stars,name,wordembedding.dat)
-wordembedding.dat$stars <- as.factor(wordembedding.dat$stars)
-
-sort(words[words>summary(words)[5]], decreasing= TRUE)
-
-
-avg.hotel <- sort(tapply(as.numeric(wordembedding.dat$stars),wordembedding.dat$name,mean))
+avg.hotel <- sort(tapply(as.numeric(dat$stars),dat$name,mean))
 hotel.names <- names(avg.hotel)
 
-if (avg.hotel[1]<mean(avg.hotel)){
-  print(paste(hotel.names[30],"obtained",mean(avg.hotel),"average rate which is below the average rate of hotels in Madison Area"))
+
+if (round(avg.hotel[hotel.names[30]],1)<round(mean(avg.hotel),1)){
+  print(paste(hotel.names[30],"obtained",round(avg.hotel[hotel.names[30]],1),"average rate which is below the average rate(",round(mean(avg.hotel),1),")of hotels in Madison Area"))
 }else{
-  print(paste(hotel.names[30],"obtained",mean(avg.hotel),"average rate which is above the average rate of hotels in Madison Area"))
+  print(paste(hotel.names[30],"obtained",round(avg.hotel[hotel.names[30]],1),"average rate which is above the average rate(",round(mean(avg.hotel),1),") of hotels in Madison Area"))
 }
 
-print(paste(hotel.names[30],"got",length(which(wordembedding.dat$name==hotel.names[30])),"reviews from the customers"))
+print(paste(hotel.names[30],"got",length(which(dat$name==hotel.names[30])),"reviews from the customers"))
 
-barplot(table(wordembedding.dat$stars[which(wordembedding.dat$name==hotel.names[30])]), xlab="Stars",ylab="Number of Review", main=hotel.names[30])
+barplot(table(dat$stars[which(dat$name==hotel.names[30])]), xlab="Stars",ylab="Number of Review", main=hotel.names[30])
 
-if(length(which(wordembedding.dat$name==hotel.names[30]))>5){
+if(length(which(dat$name==hotel.names[30]))>5){
 
-  part.dat <- wordembedding.dat[which(wordembedding.dat$name==hotel.names[30]),]
-  
-  part.words <- apply(part.dat[,3:dim(part.dat)[2]],2,sum)
+  part.dat <- dat[which(dat$name==hotel.names[30]),]
+  part.words <- apply(part.dat[,4:dim(part.dat)[2]],2,sum)
   part.freq <- names(sort(part.words, decreasing= TRUE)[1:30])
   
   print(paste("Most frequently appeared 30 words in reviews for",hotel.names[30],"are"))
   print(sort(part.words, decreasing= TRUE)[1:30])
-  
-  box.evaluation <- function(argument1){
-    ind <- argument1
-    index <- which(part.dat[ind]==1)
-    part.star <- as.numeric(part.dat[index,1])
-    mean(part.star)
-    index2 <- which(betterhotel.dat[ind]==1)
-    word.star <- as.numeric(wordembedding.dat[index2,1])
-    mean(word.star)
-        
-  }
 
-service.avg <- mean(as.numeric(wordembedding.dat$stars[which(part.dat[,c("booked","money","staff","manager","breakfast","desk")]==1)]))
-facility.avg <- mean(as.numeric(wordembedding.dat$stars[which(part.dat[,c("wall","parking")]==1)]))
-location.avg <- mean(as.numeric(wordembedding.dat$stars[which(part.dat[,c("bar","downtown","restaurant","location")]==1)]))
-atmosphere.avg <- mean(as.numeric(wordembedding.dat$stars[which(part.dat[,c("clean","comfortable","spacious","quiet","smell","modern","pretty","comfy","dirty")]==1)]))
 
-print(paste(hotel.names[30],"obtained",round(service.avg,1),"star rate for service"))
-print(paste(hotel.names[30],"obtained",round(facility.avg,1),"star rate for facility"))
-print(paste(hotel.names[30],"obtained",round(location.avg,1),"star rate for location"))
-print(paste(hotel.names[30],"obtained",round(atmosphere.avg,1),"star rate for atmosphere"))
+service.avg <- round(mean(as.numeric(dat$stars[which(dat[,"booked"]==1|dat[,"money"]==1|dat[,"staff"]==1|dat[,"manager"]==1|dat[,"breakfast"]==1|dat[,"desk"]==1)])),1)
+facility.avg <- round(mean(as.numeric(dat$stars[which(dat[,"wall"]==1|dat[,"parking"]==1)])),1)
+location.avg <- round(mean(as.numeric(dat$stars[which(dat[,"bar"]==1|dat[,"downtown"]==1|dat[,"restaurant"]==1|dat[,"location"]==1)])),1)
+atmosphere.avg <- round(mean(as.numeric(dat$stars[which(dat[,"clean"]==1|dat[,"quiet"]==1|dat[,"comfortable"]==1|dat[,"spacious"]==1|dat[,"quiet"]==1|dat[,"smell"]==1|dat[,"modern"]==1|dat[,"pretty"]==1|dat[,"comfy"]==1|dat[,"dirty"]==1)])),1)
+
+
+service.part.avg <- round(mean(as.numeric(part.dat$stars[which(part.dat[,"booked"]==1|part.dat[,"money"]==1|part.dat[,"staff"]==1|part.dat[,"manager"]==1|part.dat[,"breakfast"]==1|part.dat[,"desk"]==1)])),1)
+facility.part.avg <- round(mean(as.numeric(part.dat$stars[which(part.dat[,"wall"]==1|part.dat[,"parking"]==1)])),1)
+location.part.avg <- round(mean(as.numeric(part.dat$stars[which(part.dat[,"bar"]==1|part.dat[,"downtown"]==1|part.dat[,"restaurant"]==1|part.dat[,"location"]==1)])),1)
+atmosphere.part.avg <- round(mean(as.numeric(part.dat$stars[which(part.dat[,"clean"]==1|part.dat[,"quiet"]==1|part.dat[,"comfortable"]==1|part.dat[,"spacious"]==1|part.dat[,"quiet"]==1|part.dat[,"smell"]==1|part.dat[,"modern"]==1|part.dat[,"pretty"]==1|part.dat[,"comfy"]==1|part.dat[,"dirty"]==1)])),1)
+
+if(service.part.avg>service.avg){
+  print(paste(hotel.names[30],"obtained",service.part.avg,"star rate for service which is above the average rate(",service.avg,")of hotels in Madison Area"))
+}else{
+  print(paste(hotel.names[30],"obtained",service.part.avg,"star rate for service which is below the average rate(",service.avg,")of hotels in Madison Area"))
+}
+
+if(facility.part.avg>facility.avg){
+  print(paste(hotel.names[30],"obtained",facility.part.avg,"star rate for facility which is above the average rate(",facility.avg,")of hotels in Madison Area"))
+}else{
+  print(paste(hotel.names[30],"obtained",facility.part.avg,"star rate for facility which is below the average rate(",facility.avg,")of hotels in Madison Area"))
+}
+
+if(location.part.avg>location.avg){
+  print(paste(hotel.names[30],"obtained",location.part.avg,"star rate for location which is above the average rate(",location.avg,")of hotels in Madison Area"))
+}else{
+  print(paste(hotel.names[30],"obtained",location.part.avg,"star rate for location which is below the average rate(",location.avg,")of hotels in Madison Area"))
+}
+
+if(atmosphere.part.avg>atmosphere.avg){
+  print(paste(hotel.names[30],"obtained",atmosphere.part.avg,"star rate for atmosphere which is above the average rate(",atmosphere.avg,")of hotels in Madison Area"))
+}else{
+  print(paste(hotel.names[30],"obtained",atmosphere.part.avg,"star rate for atmosphere which is below the average rate(",atmosphere.avg,")of hotels in Madison Area"))
+}
 
 service <- c("booked","money","staff","manager","breakfast","desk")
 facility <- c("wall","parking")
-location <- c("bar","downtown","reataurant","location")
+location <- c("bar","downtown","restaurant","location")
 atmosphere <- c("clean","comfortable","spacious","quiet","smell","modern","pretty","comfy","dirty")
 
+#service
+book.part.star <- as.numeric(part.dat$stars[which(part.dat[,"booked"]==1)])
+money.part.star <- as.numeric(part.dat$stars[which(part.dat[,"money"]==1)])
+staff.part.star <- as.numeric(part.dat$stars[which(part.dat[,"staff"]==1)])
+manager.part.star <- as.numeric(part.dat$stars[which(part.dat[,"manager"]==1)])
+breakfast.part.star <- as.numeric(part.dat$stars[which(part.dat[,"breakfast"]==1)])
+desk.part.star <- as.numeric(part.dat$stars[which(part.dat[,"desk"]==1)])
 
+book.dat.star <- as.numeric(dat$stars[which(dat[,"booked"]==1)])
+money.dat.star <- as.numeric(dat$stars[which(dat[,"money"]==1)])
+staff.dat.star <- as.numeric(dat$stars[which(dat[,"staff"]==1)])
+manager.dat.star <- as.numeric(dat$stars[which(dat[,"manager"]==1)])
+breakfast.dat.star <- as.numeric(dat$stars[which(dat[,"breakfast"]==1)])
+desk.dat.star <- as.numeric(dat$stars[which(dat[,"desk"]==1)])
 
-boxplot(cbind(star,better.star),main=paste(ind,'.star comparison between high rated hotel and low rated hotel'))
-t.test(ac.star,better.star)     
+#facility
+wall.part.star <- as.numeric(part.dat$stars[which(part.dat[,"wall"]==1)])
+parking.part.star <- as.numeric(part.dat$stars[which(part.dat[,"parking"]==1)])
 
+wall.dat.star <- as.numeric(dat$stars[which(dat[,"wall"]==1)])
+parking.dat.star <- as.numeric(dat$stars[which(dat[,"parking"]==1)])
+
+#location
+bar.part.star <- as.numeric(part.dat$stars[which(part.dat[,"bar"]==1)])
+downtown.part.star <- as.numeric(part.dat$stars[which(part.dat[,"downtown"]==1)])
+restaurant.part.star <- as.numeric(part.dat$stars[which(part.dat[,"restaurant"]==1)])
+location.part.star <- as.numeric(part.dat$stars[which(part.dat[,"location"]==1)])
+
+bar.dat.star <- as.numeric(dat$stars[which(dat[,"bar"]==1)])
+downtown.dat.star <- as.numeric(dat$stars[which(dat[,"downtown"]==1)])
+restaurant.dat.star <- as.numeric(dat$stars[which(dat[,"restaurant"]==1)])
+location.dat.star <- as.numeric(dat$stars[which(dat[,"location"]==1)])
+
+#atmosphere
+clean.part.star <- as.numeric(part.dat$stars[which(part.dat[,"clean"]==1)])
+comfortable.part.star <- as.numeric(part.dat$stars[which(part.dat[,"comfortable"]==1)])
+spacious.part.star <- as.numeric(part.dat$stars[which(part.dat[,"spacious"]==1)])
+quiet.part.star <- as.numeric(part.dat$stars[which(part.dat[,"quiet"]==1)])
+smell.part.star <- as.numeric(part.dat$stars[which(part.dat[,"smell"]==1)])
+modern.part.star <- as.numeric(part.dat$stars[which(part.dat[,"modern"]==1)])
+pretty.part.star <- as.numeric(part.dat$stars[which(part.dat[,"pretty"]==1)])
+comfy.part.star <- as.numeric(part.dat$stars[which(part.dat[,"comfy"]==1)])
+dirty.part.star <- as.numeric(part.dat$stars[which(part.dat[,"dirty"]==1)])
+
+clean.dat.star <- as.numeric(dat$stars[which(dat[,"clean"]==1)])
+comfortable.dat.star <- as.numeric(dat$stars[which(dat[,"comfortable"]==1)])
+spacious.dat.star <- as.numeric(dat$stars[which(dat[,"spacious"]==1)])
+quiet.dat.star <- as.numeric(dat$stars[which(dat[,"quiet"]==1)])
+smell.dat.star <- as.numeric(dat$stars[which(dat[,"smell"]==1)])
+modern.dat.star <- as.numeric(dat$stars[which(dat[,"modern"]==1)])
+pretty.dat.star <- as.numeric(dat$stars[which(dat[,"pretty"]==1)])
+comfy.dat.star <- as.numeric(dat$stars[which(dat[,"comfy"]==1)])
+dirty.dat.star <- as.numeric(dat$stars[which(dat[,"dirty"]==1)])
+
+boxplot(cbind(book.part.star,book.dat.star),main=paste('booked.star comparison between high rated hotel and low rated hotel'))
 
 
 }else{
   print("Not enough reviews from customers")
 }
-
