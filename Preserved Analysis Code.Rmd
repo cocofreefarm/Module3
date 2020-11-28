@@ -35,12 +35,12 @@ total.star4 <-length(which(wordembedding.dat$stars == 4))
 total.star5 <-length(which(wordembedding.dat$stars == 5))
 total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
 
-freq.dat <- cbind(star.dat$stars_x,star.dat[,ind])
-star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] >= 1))
-star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] >= 1))
-star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] >= 1))
-star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] >= 1))
-star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] >= 1))
+freq.dat <- cbind(wordembedding.dat$stars, wordembedding.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] == 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] == 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] == 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] == 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] == 1))
 v <- c(star1, star2, star3, star4, star5)
 
 freq <- v/total.v
@@ -48,18 +48,236 @@ freq
 }
 
 freq.mat <- matrix(rep(NA,5),nrow=5)
-for (i in 1:dim(star.dat)[2]-1){
-  freq.vec <- freq(colnames(star.dat)[i+1])
+for (i in 1:dim(wordembedding.dat)[2]-1){
+  freq.vec <- freq(colnames(wordembedding.dat)[i+1])
   freq.mat <- cbind(freq.mat,freq.vec)
 }
-star.level <- levels(as.factor(star.dat$stars_x))
+stars <- levels(as.factor(star.dat$stars_x))
 freq.data <- freq.mat[,-(1:2)]
-names(sort(words[words>summary(words)[5]], decreasing= TRUE))
-freq.data <- as.data.frame(cbind(star.level,freq.data))
-
+colnames(freq.data) <- names(wordembedding.dat)[-1]
+freq.data <- as.data.frame(cbind(stars,freq.data))
 ```
 ```{r}
-sort(words[words>summary(words)[5]], decreasing= TRUE)
+avg.hotel <- sort(tapply(dat$stars_x,dat$name,mean))
+avg.hotel
+summary(avg.hotel)
+```
+```{r}
+length(avg.hotel[which(avg.hotel< 3.5)])
+par(cex.axis=1)
+barplot(avg.hotel[avg.hotel < 3.5], main = "Average rate of the Hotels who received lower rate in Madison", ylim = c(0,5),las=2)
+lowrate.Hotels <- names(avg.hotel[avg.hotel < 3.5])
+lowrate.Hotels
+```
+```{r}
+rev <- c()
+for(i in 1:22){
+    rev[i] <- length(dat$stars_x[which(dat$name==lowrate.Hotels[i])])
+}
+sum(rev)
+
+ref <- c()
+for (i in 1:23){
+   temp <- which(dat$name==lowrate.Hotels[i])
+   ref <- c(ref,temp) 
+}
+
+lowerhotel.dat <- wordembedding.dat[ref,]
+stars <- lowerhotel.dat[,1]
+lowerhotel.dat <- cbind(stars, lowerhotel.dat[names(sort(words[words>summary(words)[5]], decreasing= TRUE))])
+lowerhotel.dat$stars <- as.factor(lowerhotel.dat$stars)
+```
+```{r}
+length(avg.hotel[avg.hotel > 3.5])
+par(cex.axis=1)
+barplot(avg.hotel[avg.hotel > 3.5], main = "Average rate of the Hotels who received better rate in Madison", ylim = c(0,5),las=2)
+highrate.Hotels <- names(avg.hotel[avg.hotel > 3.5])
+highrate.Hotels
+```
+```{r}
+rev <- c()
+for(i in 1:23){
+    rev[i] <- length(dat$stars_x[which(dat$name==highrate.Hotels[i])])
+}
+sum(rev)
+
+ref <- c()
+for (i in 1:23){
+   temp <- which(dat$name==highrate.Hotels[i])
+   ref <- c(ref,temp) 
+}
+
+betterhotel.dat <- wordembedding.dat[ref,]
+stars <- betterhotel.dat[,1]
+betterhotel.dat <- cbind(stars, betterhotel.dat[names(sort(words[words>summary(words)[5]], decreasing= TRUE))])
+betterhotel.dat$stars <- as.factor(betterhotel.dat$stars)
+```
+
+
+```{r}
+lower.freq <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(lowerhotel.dat$stars == 1))
+total.star2 <-length(which(lowerhotel.dat$stars == 2))
+total.star3 <-length(which(lowerhotel.dat$stars == 3))
+total.star4 <-length(which(lowerhotel.dat$stars == 4))
+total.star5 <-length(which(lowerhotel.dat$stars == 5))
+total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
+
+freq.dat <- cbind(lowerhotel.dat$stars, lowerhotel.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] == 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] == 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] == 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] == 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] == 1))
+v <- c(star1, star2, star3, star4, star5)
+
+freq <- v/total.v
+freq
+}
+
+better.freq <- function(argument1){
+ind <- argument1
+total.star1 <-length(which(betterhotel.dat$stars == 1))
+total.star2 <-length(which(betterhotel.dat$stars == 2))
+total.star3 <-length(which(betterhotel.dat$stars == 3))
+total.star4 <-length(which(betterhotel.dat$stars == 4))
+total.star5 <-length(which(betterhotel.dat$stars == 5))
+total.v <- c(total.star1,total.star2,total.star3,total.star4,total.star5)
+
+freq.dat <- cbind(betterhotel.dat$stars, betterhotel.dat[,ind])
+star1 <-length(which(freq.dat[,1] == 1 & freq.dat[,2] == 1))
+star2 <-length(which(freq.dat[,1] == 2 & freq.dat[,2] == 1))
+star3 <-length(which(freq.dat[,1] == 3 & freq.dat[,2] == 1))
+star4 <-length(which(freq.dat[,1] == 4 & freq.dat[,2] == 1))
+star5 <-length(which(freq.dat[,1] == 5 & freq.dat[,2] == 1))
+v <- c(star1, star2, star3, star4, star5)
+
+freq <- v/total.v
+freq
+}
+
+freq.lower.mat <- matrix(rep(NA,5),nrow=5)
+for (i in 1:dim(lowerhotel.dat)[2]-2){
+  freq.lower.vec <- lower.freq(colnames(lowerhotel.dat)[i+2])
+  freq.lower.mat <- cbind(freq.lower.mat,freq.lower.vec)
+}
+
+freq.higher.mat <- matrix(rep(NA,5),nrow=5)
+for (i in 1:dim(betterhotel.dat)[2]-2){
+  freq.higher.vec <- better.freq(colnames(betterhotel.dat)[i+2])
+  freq.higher.mat <- cbind(freq.higher.mat,freq.higher.vec)
+}
+
+stars <- levels(as.factor(wordembedding.dat$stars))
+
+freq.lower.mat <- freq.lower.mat[,-(1:2)]
+freq.higher.mat <- freq.higher.mat[,-(1:2)]
+
+colnames(freq.lower.mat) <- names(wordembedding.dat)[-1]
+colnames(freq.higher.mat) <- names(wordembedding.dat)[-1]
+
+grade <- rep("lower",5)
+lower.freq.dat <- type.convert(as.data.frame(cbind(grade,stars,freq.lower.mat)))
+lower.freq.dat$stars <- as.factor(lower.freq.dat$stars)
+
+grade <- rep("better",5)
+better.freq.dat <- type.convert(as.data.frame(cbind(grade,stars,freq.higher.mat)))
+better.freq.dat$stars <- as.factor(better.freq.dat$stars)
+
+frequency.dat <- rbind(lower.freq.dat,better.freq.dat)
+```
+```{r}
+test.proportion <- function(star,argument1){
+ind <- argument1
+total.lower.star1 <-length(which(lowerhotel.dat$stars == 1))
+total.lower.star2 <-length(which(lowerhotel.dat$stars == 2))
+total.lower.star3 <-length(which(lowerhotel.dat$stars == 3))
+total.lower.star4 <-length(which(lowerhotel.dat$stars == 4))
+total.lower.star5 <-length(which(lowerhotel.dat$stars == 5))
+total.lower.v <- c(total.lower.star1,total.lower.star2,total.lower.star3,total.lower.star4,total.lower.star5)
+
+freq.lower.dat <- cbind(lowerhotel.dat$stars, lowerhotel.dat[,ind])
+lower.star1 <-length(which(freq.lower.dat[,1] == 1 & freq.lower.dat[,2] == 1))
+lower.star2 <-length(which(freq.lower.dat[,1] == 2 & freq.lower.dat[,2] == 1))
+lower.star3 <-length(which(freq.lower.dat[,1] == 3 t& freq.lower.dat[,2] == 1))
+lower.star4 <-length(which(freq.lower.dat[,1] == 4 & freq.lower.dat[,2] == 1))
+lower.star5 <-length(which(freq.lower.dat[,1] == 5 & freq.lower.dat[,2] == 1))
+lower.v <- c(lower.star1, lower.star2, lower.star3, lower.star4, lower.star5)
+
+lower.dat <- cbind(lower.v,total.lower.v)
+
+total.better.star1 <-length(which(betterhotel.dat$stars == 1))
+total.better.star2 <-length(which(betterhotel.dat$stars == 2))
+total.better.star3 <-length(which(betterhotel.dat$stars == 3))
+total.better.star4 <-length(which(betterhotel.dat$stars == 4))
+total.better.star5 <-length(which(betterhotel.dat$stars == 5))
+total.better.v <- c(total.better.star1,total.better.star2,total.better.star3,total.better.star4,total.better.star5)
+
+freq.better.dat <- cbind(betterhotel.dat$stars, betterhotel.dat[,ind])
+better.star1 <-length(which(freq.better.dat[,1] == 1 & freq.better.dat[,2] == 1))
+better.star2 <-length(which(freq.better.dat[,1] == 2 & freq.better.dat[,2] == 1))
+better.star3 <-length(which(freq.better.dat[,1] == 3 & freq.better.dat[,2] == 1))
+better.star4 <-length(which(freq.better.dat[,1] == 4 & freq.better.dat[,2] == 1))
+better.star5 <-length(which(freq.better.dat[,1] == 5 & freq.better.dat[,2] == 1))
+better.v <- c(better.star1, better.star2, better.star3, better.star4, better.star5)
+
+better.dat <- cbind(better.v,total.better.v)
+
+prop.test(x=c(lower.dat[star,1],better.dat[star,1]),n=c(lower.dat[star,2],better.dat[star,2]))
+}
+
+test.proportion(1:3,"staff")
+```
+
+
+```{r}
+t.test(lowerhotel.dat[,"booked"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"booked"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"money"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"money"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"staff"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"staff"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"manager"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"manager"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"breakfast"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"breakfast"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"desk"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"desk"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"wall"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"wall"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"toilet"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"toilet"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"parking"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"parking"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"bar"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"bar"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"downtown"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"downtown"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"restaurant"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"restaurant"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"location"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"location"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"clean"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"clean"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"comfortable"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"comfortable"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"spacious"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"spacious"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"quiet"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"quiet"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"smell"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"smell"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"modern"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"modern"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"pretty"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"pretty"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"comfy"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"comfy"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+t.test(lowerhotel.dat[,"dirty"][which(lowerhotel.dat$stars == 4 | lowerhotel.dat$stars == 5)], betterhotel.dat[,"dirty"][which(betterhotel.dat$stars == 4 |betterhotel.dat$stars == 5)])
+```
+```{r}
+t.test(better.freq.dat$booked[1:2],lower.freq.dat$booked[1:2],paired=T)
+t.test(better.freq.dat$money[1:2],lower.freq.dat$money[1:2],paired=T)
+t.test(better.freq.dat$staff[1:2],lower.freq.dat$staff[1:2],paired=T)
+t.test(better.freq.dat$manager[1:2],lower.freq.dat$manager[1:2],paired=T)
+t.test(better.freq.dat$breakfast[1:2],lower.freq.dat$breakfast[1:2],paired=T)
+t.test(better.freq.dat$desk[1:2],lower.freq.dat$desk[1:2],paired=T)
+t.test(better.freq.dat$wall[1:2],lower.freq.dat$wall[1:2],paired=T)
+t.test(better.freq.dat$toilet[1:2],lower.freq.dat$toilet[1:2],paired=T)
+t.test(better.freq.dat$parking[1:2],lower.freq.dat$parking[1:2],paired=T)
+t.test(better.freq.dat$bar[1:2],lower.freq.dat$bar[1:2],paired=T)
+t.test(better.freq.dat$downtown[1:2],lower.freq.dat$downtown[1:2],paired=T)
+t.test(better.freq.dat$restaurant[1:2],lower.freq.dat$restaurant[1:2],paired=T)
+t.test(better.freq.dat$location[1:2],lower.freq.dat$location[1:2],paired=T)
+t.test(better.freq.dat$clean[1:2],lower.freq.dat$clean[1:2],paired=T)
+t.test(better.freq.dat$comfortable[1:2],lower.freq.dat$comfortable[1:2],paired=T)
+t.test(better.freq.dat$spacious[1:2],lower.freq.dat$spacious[1:2],paired=T)
+t.test(better.freq.dat$quiet[1:2],lower.freq.dat$quiet[1:2],paired=T)
+t.test(better.freq.dat$smell[1:2],lower.freq.dat$smell[1:2],paired=T)
+t.test(better.freq.dat$modern[1:2],lower.freq.dat$modern[1:2],paired=T)
+t.test(better.freq.dat$pretty[1:2],lower.freq.dat$pretty[1:2],paired=T)
+t.test(better.freq.dat$comfy[1:2],lower.freq.dat$comfy[1:2],paired=T)
+t.test(better.freq.dat$dirty[1:2],lower.freq.dat$dirty[1:2],paired=T)
 ```
 
 ```{r}
@@ -211,13 +429,103 @@ wordembedding.dat <- cbind(stars,wordembedding.dat[,-1])
 wordembedding.dat$stars <- as.factor(wordembedding.dat$stars)
 ```
 
+```{r}
+#porportion function
+test.ac.proportion <- function(star,argument1){
+ind <- argument1
+total.ac.star1 <-length(which(ac.dat$stars == 1))
+total.ac.star2 <-length(which(ac.dat$stars == 2))
+total.ac.star3 <-length(which(ac.dat$stars == 3))
+total.ac.star4 <-length(which(ac.dat$stars == 4))
+total.ac.star5 <-length(which(ac.dat$stars == 5))
+total.ac.v <- c(total.ac.star1,total.ac.star2,total.ac.star3,total.ac.star4,total.ac.star5)
+
+freq.ac.dat <- cbind(ac.dat$stars, ac.dat[,ind])
+ac.star1 <-length(which(freq.ac.dat[,1] == 1 & freq.ac.dat[,2] == 1))
+ac.star2 <-length(which(freq.ac.dat[,1] == 2 & freq.ac.dat[,2] == 1))
+ac.star3 <-length(which(freq.ac.dat[,1] == 3 & freq.ac.dat[,2] == 1))
+ac.star4 <-length(which(freq.ac.dat[,1] == 4 & freq.ac.dat[,2] == 1))
+ac.star5 <-length(which(freq.ac.dat[,1] == 5 & freq.ac.dat[,2] == 1))
+ac.v <- c(ac.star1, ac.star2, ac.star3, ac.star4, ac.star5)
+
+ac.dat <- cbind(ac.v,total.ac.v)
+
+total.better.star1 <-length(which(betterhotel.dat$stars == 1))
+total.better.star2 <-length(which(betterhotel.dat$stars == 2))
+total.better.star3 <-length(which(betterhotel.dat$stars == 3))
+total.better.star4 <-length(which(betterhotel.dat$stars == 4))
+total.better.star5 <-length(which(betterhotel.dat$stars == 5))
+total.better.v <- c(total.better.star1,total.better.star2,total.better.star3,total.better.star4,total.better.star5)
+
+freq.better.dat <- cbind(betterhotel.dat$stars, betterhotel.dat[,ind])
+better.star1 <-length(which(freq.better.dat[,1] == 1 & freq.better.dat[,2] == 1))
+better.star2 <-length(which(freq.better.dat[,1] == 2 & freq.better.dat[,2] == 1))
+better.star3 <-length(which(freq.better.dat[,1] == 3 & freq.better.dat[,2] == 1))
+better.star4 <-length(which(freq.better.dat[,1] == 4 & freq.better.dat[,2] == 1))
+better.star5 <-length(which(freq.better.dat[,1] == 5 & freq.better.dat[,2] == 1))
+better.v <- c(better.star1, better.star2, better.star3, better.star4, better.star5)
+
+better.dat <- cbind(better.v,total.better.v)
+
+prop.test(x=c(ac.dat[star,1],better.dat[star,1]),n=c(ac.dat[star,2],better.dat[star,2]))
+}
+```
 
 ```{r}
-test.dat <- wordembedding.dat[c("stars","staff", "manager", "breakfast", "desk","parking","wall","location","bar","clean","comfortable","spacious","smell")]
+test.dat <- wordembedding.dat[c("stars","booked","money","staff", "manager", "breakfast", "desk","wall","toilet","parking","bar","downtown","restaurant","location","clean","comfortable","spacious","quiet","smell","modern","pretty","comfy","dirty")]
+
+booked <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,2]==1){
+    if (test.dat[i,]$stars==1){
+    booked[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    booked[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    booked[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    booked[i] = 4
+    }
+    else {
+    booked[i] = 5
+    }
+  }
+  else{
+    booked[i] = 3
+  }
+}
+
+money <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,3]==1){
+    if (test.dat[i,]$stars==1){
+    money[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    money[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    money[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    money[i] = 4
+    }
+    else {
+    money[i] = 5
+    }
+  }
+  else{
+    money[i] = 3
+  }
+}
+
 
 staff <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,2]==1){
+  if (test.dat[i,4]==1){
     if (test.dat[i,]$stars==1){
     staff[i] = 1
     }
@@ -241,7 +549,7 @@ for(i in 1:dim(test.dat)[1]){
 
 manager <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,3]==1){
+  if (test.dat[i,5]==1){
     if (test.dat[i,]$stars==1){
     manager[i] = 1
     }
@@ -265,7 +573,7 @@ for(i in 1:dim(test.dat)[1]){
 
 breakfast <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,4]==1){
+  if (test.dat[i,6]==1){
     if (test.dat[i,]$stars==1){
     breakfast[i] = 1
     }
@@ -289,7 +597,7 @@ for(i in 1:dim(test.dat)[1]){
 
 desk <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,5]==1){
+  if (test.dat[i,7]==1){
     if (test.dat[i,]$stars==1){
     desk[i] = 1
     }
@@ -311,33 +619,9 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
-parking <- c()
-for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,6]==1){
-    if (test.dat[i,]$stars==1){
-    parking[i] = 1
-    }
-    else if(test.dat[i,]$stars==2){
-    parking[i] = 2
-    }
-    else if(test.dat[i,]$stars==3){
-    parking[i] = 3
-    }
-    else if(test.dat[i,]$stars==4){
-    parking[i] = 4
-    }
-    else {
-    parking[i] = 5
-    }
-  }
-  else{
-    parking[i] = 3
-  }
-}
-
 wall <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,7]==1){
+  if (test.dat[i,8]==1){
     if (test.dat[i,]$stars==1){
     wall[i] = 1
     }
@@ -359,33 +643,57 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
-location <- c()
+toilet <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,8]==1){
+  if (test.dat[i,9]==1){
     if (test.dat[i,]$stars==1){
-    location[i] = 1
+    toilet[i] = 1
     }
     else if(test.dat[i,]$stars==2){
-    location[i] = 2
+    toilet[i] = 2
     }
     else if(test.dat[i,]$stars==3){
-    location[i] = 3
+    toilet[i] = 3
     }
     else if(test.dat[i,]$stars==4){
-    location[i] = 4
+    toilet[i] = 4
     }
     else {
-    location[i] = 5
+    toilet[i] = 5
     }
   }
   else{
-    location[i] = 3
+    toilet[i] = 3
+  }
+}
+
+parking <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,10]==1){
+    if (test.dat[i,]$stars==1){
+    parking[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    parking[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    parking[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    parking[i] = 4
+    }
+    else {
+    parking[i] = 5
+    }
+  }
+  else{
+    parking[i] = 3
   }
 }
 
 bar <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,9]==1){
+  if (test.dat[i,11]==1){
     if (test.dat[i,]$stars==1){
     bar[i] = 1
     }
@@ -407,9 +715,82 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
+downtown <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,12]==1){
+    if (test.dat[i,]$stars==1){
+    downtown[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    downtown[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    downtown[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    downtown[i] = 4
+    }
+    else {
+    downtown[i] = 5
+    }
+  }
+  else{
+    downtown[i] = 3
+  }
+}
+
+restaurant <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,13]==1){
+    if (test.dat[i,]$stars==1){
+    restaurant[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    restaurant[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    restaurant[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    restaurant[i] = 4
+    }
+    else {
+    restaurant[i] = 5
+    }
+  }
+  else{
+    restaurant[i] = 3
+  }
+}
+
+
+location <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,14]==1){
+    if (test.dat[i,]$stars==1){
+    location[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    location[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    location[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    location[i] = 4
+    }
+    else {
+    location[i] = 5
+    }
+  }
+  else{
+    location[i] = 3
+  }
+}
+
 clean <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,10]==1){
+  if (test.dat[i,15]==1){
     if (test.dat[i,]$stars==1){
     clean[i] = 1
     }
@@ -433,7 +814,7 @@ for(i in 1:dim(test.dat)[1]){
 
 comfortable <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,11]==1){
+  if (test.dat[i,16]==1){
     if (test.dat[i,]$stars==1){
     comfortable[i] = 1
     }
@@ -457,7 +838,7 @@ for(i in 1:dim(test.dat)[1]){
 
 spacious <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,12]==1){
+  if (test.dat[i,17]==1){
     if (test.dat[i,]$stars==1){
     spacious[i] = 1
     }
@@ -479,9 +860,33 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
+quiet <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,18]==1){
+    if (test.dat[i,]$stars==1){
+    quiet[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    quiet[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    quiet[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    quiet[i] = 4
+    }
+    else {
+    quiet[i] = 5
+    }
+  }
+  else{
+    quiet[i] = 3
+  }
+}
+
 smell <- c()
 for(i in 1:dim(test.dat)[1]){
-  if (test.dat[i,13]==1){
+  if (test.dat[i,19]==1){
     if (test.dat[i,]$stars==1){
     smell[i] = 1
     }
@@ -503,6 +908,102 @@ for(i in 1:dim(test.dat)[1]){
   }
 }
 
+modern <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,20]==1){
+    if (test.dat[i,]$stars==1){
+    modern[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    modern[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    modern[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    modern[i] = 4
+    }
+    else {
+    modern[i] = 5
+    }
+  }
+  else{
+    modern[i] = 3
+  }
+}
+
+pretty <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,21]==1){
+    if (test.dat[i,]$stars==1){
+    pretty[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    pretty[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    pretty[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    pretty[i] = 4
+    }
+    else {
+    pretty[i] = 5
+    }
+  }
+  else{
+    pretty[i] = 3
+  }
+}
+
+comfy <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,22]==1){
+    if (test.dat[i,]$stars==1){
+    comfy[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    comfy[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    comfy[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    comfy[i] = 4
+    }
+    else {
+    comfy[i] = 5
+    }
+  }
+  else{
+    comfy[i] = 3
+  }
+}
+
+dirty <- c()
+for(i in 1:dim(test.dat)[1]){
+  if (test.dat[i,23]==1){
+    if (test.dat[i,]$stars==1){
+    dirty[i] = 1
+    }
+    else if(test.dat[i,]$stars==2){
+    dirty[i] = 2
+    }
+    else if(test.dat[i,]$stars==3){
+    dirty[i] = 3
+    }
+    else if(test.dat[i,]$stars==4){
+    dirty[i] = 4
+    }
+    else {
+    dirty[i] = 5
+    }
+  }
+  else{
+    dirty[i] = 3
+  }
+}
+
 stars <- as.factor(test.dat$stars)
 eval.dat <- as.data.frame(cbind(stars,staff,manager,breakfast,desk,parking,wall,location,bar,clean,comfortable,spacious,smell))
 
@@ -515,6 +1016,19 @@ sum(diag(table(predict(eval.m,eval.dat),stars)))/sum(table(predict(eval.m,eval.d
 ```
 
 ```{r}
+barplot(table(eval.dat$stars))
+barplot(table(eval.dat$staff))
+barplot(table(eval.dat$manager))
+barplot(table(eval.dat$breakfast))
+barplot(table(eval.dat$desk))
+barplot(table(eval.dat$parking))
+barplot(table(eval.dat$wall))
+barplot(table(eval.dat$location))
+barplot(table(eval.dat$bar))
+barplot(table(eval.dat$clean))
+barplot(table(eval.dat$comfortable))
+barplot(table(eval.dat$spacious))
+barplot(table(eval.dat$smell))
 
 ```
 
