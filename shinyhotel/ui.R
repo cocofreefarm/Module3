@@ -7,7 +7,7 @@ library(ggplot2)
 
 
 ui = fluidPage(
-    titlePanel(h1(id = "title","Get your hotel stars right now!",align = "center")),
+    titlePanel(h1(id = "title","Hotel Analysis based on Yelp ",align = "center")),
     tags$style(HTML("#title{font-size: 50px;font-family: Georgia;}")),
     hr(),
     fluidRow(column(4, h2("Input")), column(4, h2("Output"))),
@@ -15,7 +15,7 @@ ui = fluidPage(
       sidebarPanel(
         p("Please select your hotel below:"),
         fluidRow(column(12,style=list("padding-left: 5px;"),
-                        selectInput("Hotel_name",label="Select your Hotel!",
+                        selectInput("Hotel_name",label="Hotel Name List",
                                     choices=c('Budget Host Aloha Inn Motel',
                                               'Rodeway Inn & Suites WI Madison-Northeast',
                                               'Super 8 by Wyndham Madison East',
@@ -62,14 +62,14 @@ ui = fluidPage(
                                               'SpringHill Suites Madison',
                                               'Hotel Indigo Madison Downtown'), selected='AC Hotel by Marriott Madison Downtown', multiple=F)
         )),
+        
+        
         p("Please provide the following information and then click Calculate Button:"),
-        checkboxGroupInput("variable", "Which service available?",
-                           c("Parking lot",
-                             "Free WiFi",
-                             "Reservation",
-                             "Alcohol",
-                             "Wheelchair",
-                             "Creditcard")),
+        fluidRow(column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable1", "Service",c("Accept Reservation","Accept Credit Cards","Good Staff","Decent Manager","Provide Breakfast","Have Desk"))),
+                 column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable2", "Facility",c("Nice Wall","Parking Lot Available")))),
+        fluidRow(column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable3", "Location",c("Near Bar","Downtown","Near Restaurant","Nice Location"))),
+                 column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable4", "Atmosphere",c("Clean","Comfortable","Spacious","Quiet","Smell good","Modern","Pretty","Comfy","Dirty")))),
+        
         
         actionButton("calculate_botton", "Calculate", style = "color: white; background-color: #4040ff" ),
         width=4
@@ -86,8 +86,7 @@ ui = fluidPage(
                    h3(htmlOutput("att2")),
                    h3(htmlOutput("att3")),
                    h3(htmlOutput("att4")),
-                   h3(htmlOutput("att5")),
-                   h3(htmlOutput("att6"))),
+),
           tabPanel("Contact us")
         )
       )

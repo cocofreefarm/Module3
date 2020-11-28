@@ -20,142 +20,31 @@ attribute =  c("Parking lot",
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
     output$att1 = renderText({
-            index = vector(mode = "numeric")
-    for (i in 1:length(input$variable)) {
-        if(input$variable[i] == attribute[1]){
-            index = c(index,1)
-        } else if(input$variable[i] == attribute[2]){
-            index = c(index,2)
-        } else if(input$variable[i] == attribute[3]){
-            index = c(index,3)
-        } else if(input$variable[i] == attribute[4]){
-            index = c(index,4)
-        } else if(input$variable[i] == attribute[5]){
-            index = c(index,5)
-        } else if(input$variable[i] == attribute[6]){
-            index = c(index,6)
-        }
-    }
-    idx = c(T,T,T,T,T,T)
-    idx[index] = F
-        if (idx[1] == T) {
-            paste("If you", "<font color=\"#FF0000\"><b>", "have Parking lot", "</b></font>", ", your star will increase by",999, ".")
+        if(length(input$variable1) != 0){
+            
+        } else {
+            paste("<font color=\"#FF0000\"><b>", "Warning: ", "</b></font>", "Please select from checkbox right side.")
         }
     })
     output$att2 = renderText({
-        index = vector(mode = "numeric")
-        for (i in 1:length(input$variable)) {
-            if(input$variable[i] == attribute[1]){
-                index = c(index,1)
-            } else if(input$variable[i] == attribute[2]){
-                index = c(index,2)
-            } else if(input$variable[i] == attribute[3]){
-                index = c(index,3)
-            } else if(input$variable[i] == attribute[4]){
-                index = c(index,4)
-            } else if(input$variable[i] == attribute[5]){
-                index = c(index,5)
-            } else if(input$variable[i] == attribute[6]){
-                index = c(index,6)
-            }
-        }
-        idx = c(T,T,T,T,T,T)
-        idx[index] = F
-        if (idx[2] == T) {
-            paste("If you", "<font color=\"#FF0000\"><b>", "have Free WiFi", "</b></font>", ", your star will increase by",999, ".")
+        if(length(input$variable2) != 0){
+            
+        } else {
+            paste("<font color=\"#FF0000\"><b>", "Warning: ", "</b></font>", "Please select from checkbox right side.")
         }
     })
     output$att3 = renderText({
-        index = vector(mode = "numeric")
-        for (i in 1:length(input$variable)) {
-            if(input$variable[i] == attribute[1]){
-                index = c(index,1)
-            } else if(input$variable[i] == attribute[2]){
-                index = c(index,2)
-            } else if(input$variable[i] == attribute[3]){
-                index = c(index,3)
-            } else if(input$variable[i] == attribute[4]){
-                index = c(index,4)
-            } else if(input$variable[i] == attribute[5]){
-                index = c(index,5)
-            } else if(input$variable[i] == attribute[6]){
-                index = c(index,6)
-            }
-        }
-        idx = c(T,T,T,T,T,T)
-        idx[index] = F
-        if (idx[3] == T) {
-            paste("If you", "<font color=\"#FF0000\"><b>", "accept Reservation", "</b></font>", ", your star will increase by",999, ".")
+        if(length(input$variable3) != 0){
+            
+        } else {
+            paste("<font color=\"#FF0000\"><b>", "Warning: ", "</b></font>", "Please select from checkbox right side.")
         }
     })
     output$att4 = renderText({
-        index = vector(mode = "numeric")
-        for (i in 1:length(input$variable)) {
-            if(input$variable[i] == attribute[1]){
-                index = c(index,1)
-            } else if(input$variable[i] == attribute[2]){
-                index = c(index,2)
-            } else if(input$variable[i] == attribute[3]){
-                index = c(index,3)
-            } else if(input$variable[i] == attribute[4]){
-                index = c(index,4)
-            } else if(input$variable[i] == attribute[5]){
-                index = c(index,5)
-            } else if(input$variable[i] == attribute[6]){
-                index = c(index,6)
-            }
-        }
-        idx = c(T,T,T,T,T,T)
-        idx[index] = F
-        if (idx[4] == T) {
-            paste("If you", "<font color=\"#FF0000\"><b>", "have Alcohol", "</b></font>", ", your star will increase by",999, ".")
+        if(length(input$variable4) != 0){
+            
+        } else {
+            paste("<font color=\"#FF0000\"><b>", "Warning: ", "</b></font>", "Please select from checkbox right side.")
         }
     })
-    output$att5 = renderText({
-        index = vector(mode = "numeric")
-        for (i in 1:length(input$variable)) {
-            if(input$variable[i] == attribute[1]){
-                index = c(index,1)
-            } else if(input$variable[i] == attribute[2]){
-                index = c(index,2)
-            } else if(input$variable[i] == attribute[3]){
-                index = c(index,3)
-            } else if(input$variable[i] == attribute[4]){
-                index = c(index,4)
-            } else if(input$variable[i] == attribute[5]){
-                index = c(index,5)
-            } else if(input$variable[i] == attribute[6]){
-                index = c(index,6)
-            }
-        }
-        idx = c(T,T,T,T,T,T)
-        idx[index] = F
-        if (idx[5] == T) {
-            paste("If you", "<font color=\"#FF0000\"><b>", "accept Wheelchair", "</b></font>", ", your star will increase by",999, ".")
-        }
-    })
-    output$att6 = renderText({
-        index = vector(mode = "numeric")
-        for (i in 1:length(input$variable)) {
-            if(input$variable[i] == attribute[1]){
-                index = c(index,1)
-            } else if(input$variable[i] == attribute[2]){
-                index = c(index,2)
-            } else if(input$variable[i] == attribute[3]){
-                index = c(index,3)
-            } else if(input$variable[i] == attribute[4]){
-                index = c(index,4)
-            } else if(input$variable[i] == attribute[5]){
-                index = c(index,5)
-            } else if(input$variable[i] == attribute[6]){
-                index = c(index,6)
-            }
-        }
-        idx = c(T,T,T,T,T,T)
-        idx[index] = F
-        if (idx[6] == T) {
-            paste("If you", "<font color=\"#FF0000\"><b>", "accept Credit cards", "</b></font>", ", your star will increase by",999, ".")
-        }
-    })
-
 })
