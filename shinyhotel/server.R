@@ -9,18 +9,42 @@
 
 library(shiny)
 
+#Create variables
+attribute =  c("Parking lot",
+                   "Free WiFi",
+                   "Reservation",
+                   "Alcohol",
+                   "Wheelchair",
+                   "Creditcard")
+
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
-
-    output$distPlot <- renderPlot({
-
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
-
+    output$att1 = renderText({
+        if(length(input$variable1) != 0){
+            
+        } else {
+            paste("<font color=\"#FF0000\"><b>", "Warning: ", "</b></font>", "Please select from checkbox right side.")
+        }
     })
-
+    output$att2 = renderText({
+        if(length(input$variable2) != 0){
+            
+        } else {
+            paste("<font color=\"#FF0000\"><b>", "Warning: ", "</b></font>", "Please select from checkbox right side.")
+        }
+    })
+    output$att3 = renderText({
+        if(length(input$variable3) != 0){
+            
+        } else {
+            paste("<font color=\"#FF0000\"><b>", "Warning: ", "</b></font>", "Please select from checkbox right side.")
+        }
+    })
+    output$att4 = renderText({
+        if(length(input$variable4) != 0){
+            
+        } else {
+            paste("<font color=\"#FF0000\"><b>", "Warning: ", "</b></font>", "Please select from checkbox right side.")
+        }
+    })
 })
