@@ -119,8 +119,9 @@ comfy.dat.star <- as.numeric(dat$stars[which(dat[,"comfy"]==1)])
 dirty.dat.star <- as.numeric(dat$stars[which(dat[,"dirty"]==1)])
 
 boxplot(cbind(book.part.star,book.dat.star),main=paste('booked.star comparison between high rated hotel and low rated hotel'))
-
+t.test(clean.dat.star,clean.dat.star)
 
 }else{
   print("Not enough reviews from customers")
 }
+

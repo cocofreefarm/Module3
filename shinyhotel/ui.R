@@ -59,15 +59,8 @@ ui = fluidPage(
         )),
         
         
-        p("Please provide the following information and then click Calculate Button:"),
-        fluidRow(column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable1", "Service",c("Accept Reservation","Proper Price","Good Staff","Decent Manager","Provide Breakfast","Have Desk"))),
-                 column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable2", "Facility",c("Nice Wall","Parking Lot Available")))),
-        fluidRow(column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable3", "Location",c("Near Bar","Downtown","Near Restaurant","Nice Location"))),
-                 column(6,style=list("padding-left: 5px;"),checkboxGroupInput("variable4", "Atmosphere",c("Clean","Comfortable","Spacious","Quiet","Smell good","Modern","Pretty","Comfy","Dirty")))),
-        
-        
-        actionButton("calculate_botton", "Calculate", style = "color: white; background-color: #4040ff" ),
-        width=4
+        p("Click and go to plot tab to see the details of :"),
+        fluidRow(column(6,style=list("padding-left: 5px;"),radioButtons("variable1", "Section",c("Service","Facility","Location","Atmosphere"))))
       ),
       
       mainPanel(
@@ -78,11 +71,8 @@ ui = fluidPage(
           
           tabPanel("Tips",
                    h3(htmlOutput("att1")),
-                   h3(htmlOutput("att2")),
-                   h3(htmlOutput("att3")),
-                   h3(htmlOutput("att4")),
 ),
-          tabPanel("Contact us")
+          tabPanel("Contact us",h3("Contact:"),htmlOutput("Contact"))
         )
       )
     )

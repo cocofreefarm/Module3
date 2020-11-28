@@ -29,7 +29,7 @@ shinyServer(function(input, output) {
     location.part.avg <- reactive({round(mean(as.numeric(part.dat()$stars[which(part.dat()[,"bar"]==1|part.dat()[,"downtown"]==1|part.dat()[,"restaurant"]==1|part.dat()[,"location"]==1)])),1)})
     atmosphere.part.avg <- reactive({round(mean(as.numeric(part.dat()$stars[which(part.dat()[,"clean"]==1|part.dat()[,"quiet"]==1|part.dat()[,"comfortable"]==1|part.dat()[,"spacious"]==1|part.dat()[,"quiet"]==1|part.dat()[,"smell"]==1|part.dat()[,"modern"]==1|part.dat()[,"pretty"]==1|part.dat()[,"comfy"]==1|part.dat()[,"dirty"]==1)])),1)})
 
-
+    freq.words <- reactive({names(sort(part.words, decreasing= TRUE)[1:30])})
     
     output$Overall <- renderText({   
         paste(input$Hotel_name,"got",length(which(dat$name==input$Hotel_name)),"reviews from the customers")
@@ -41,48 +41,77 @@ shinyServer(function(input, output) {
             paste(input$Hotel_name,"obtained",round(avg.hotel[input$Hotel_name],1),"average rate which is above the average rate(",round(mean(avg.hotel),1),") of hotels in Madison Area")
         }
         #paste("Most frequently appeared 30 words in reviews for",input$Hotel_name,"are")
-        #print(sort(part.words, decreasing= TRUE)[1:30])
     })
 
     output$barplot <- renderPlot({
         barplot(table(dat$stars[which(dat$name==input$Hotel_name)]), xlab="Stars",ylab="Number of Review", main=input$Hotel_name)
     })
     
-    output$Service <- renderText({
-        if(service.part.avg()>service.avg){
-            paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is above the average rate(",service.avg,")of hotels in Madison Area")
-        }else if(service.part.avg()==service.avg){
-            paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is the same as the average rate(",service.avg,")of hotels in Madison Area")
-        }else{
-            paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is below the average rate(",service.avg,")of hotels in Madison Area")
-        }
-    })
-    output$Facility <- renderText({
-        if(facility.part.avg()>facility.avg){
-            paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is above the average rate(",facility.avg,")of hotels in Madison Area")
-        }else if(facility.part.avg() == facility.avg){
-            paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is the same as the average rate(",facility.avg,")of hotels in Madison Area")
-        }else {
-            paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is below the average rate(",facility.avg,")of hotels in Madison Area")
-        }
-    })
-    output$Location <- renderText({
-        if(location.part.avg()>location.avg){
-            paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is above the average rate(",location.avg,")of hotels in Madison Area")
-        }else if(location.part.avg() == location.avg){
-            paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is the same as the average rate(",location.avg,")of hotels in Madison Area")
-        }else{
-            paste(hotel.input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is below the average rate(",location.avg,")of hotels in Madison Area")
-        }
-    })
-    output$Atmosphere <- renderText({
-        if(atmosphere.part.avg()>atmosphere.avg){
-            paste(hotel.input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is above the average rate(",atmosphere.avg,")of hotels in Madison Area")
-        }else if(atmosphere.part.avg() == atmosphere.avg){
-            paste(hotel.input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is the same as the average rate(",atmosphere.avg,")of hotels in Madison Area")
-        }else{
-            paste(hotel.input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is below the average rate(",atmosphere.avg,")of hotels in Madison Area")
-        }
+    reactive({if(length(which(dat$name==input$Hotel_name))>5){
+        output$Service <- renderText({
+            if(service.part.avg()>service.avg){
+                paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is above the average rate(",service.avg,")of hotels in Madison Area")
+            }else if(service.part.avg()==service.avg){
+                paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is the same as the average rate(",service.avg,")of hotels in Madison Area")
+            }else{
+                paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is below the average rate(",service.avg,")of hotels in Madison Area")
+            }
+        })
+        output$Facility <- renderText({
+            if(facility.part.avg()>facility.avg){
+                paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is above the average rate(",facility.avg,")of hotels in Madison Area")
+            }else if(facility.part.avg() == facility.avg){
+                paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is the same as the average rate(",facility.avg,")of hotels in Madison Area")
+            }else {
+                paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is below the average rate(",facility.avg,")of hotels in Madison Area")
+            }
+        })
+        output$Location <- renderText({
+            if(location.part.avg()>location.avg){
+                paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is above the average rate(",location.avg,")of hotels in Madison Area")
+            }else if(location.part.avg() == location.avg){
+                paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is the same as the average rate(",location.avg,")of hotels in Madison Area")
+            }else{
+                paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is below the average rate(",location.avg,")of hotels in Madison Area")
+            }
+        })
+        output$Atmosphere <- renderText({
+            if(atmosphere.part.avg()>atmosphere.avg){
+                paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is above the average rate(",atmosphere.avg,")of hotels in Madison Area")
+            }else if(atmosphere.part.avg() == atmosphere.avg){
+                paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is the same as the average rate(",atmosphere.avg,")of hotels in Madison Area")
+            }else{
+                paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is below the average rate(",atmosphere.avg,")of hotels in Madison Area")
+            }
+        })
+    }else{
+        
+        output$Service <- renderText({
+            paste("Not enough reviews from customers")
+        })
+        output$Facility <- renderText({
+            paste("Not enough reviews from customers")
+        })
+        output$Location <- renderText({
+            paste("Not enough reviews from customers")
+        })
+        output$Atmosphere <- renderText({
+            paste("Not enough reviews from customers")
+        })
+    }})
+    
+    
+    output$Contact <- renderUI({
+        HTML('<br>
+           Further imformation can be obtained from: <br> 
+          <br>
+          Hangyu Kang hkang98@wisc.edu <br> 
+          <br>
+          Xiangyu Wang xwang2439@wisc.edu <br>
+          <br>
+          Ruyan Zhou rzhou84@wisc.edu <br>
+          <br>
+         ')
     })
 
 })
