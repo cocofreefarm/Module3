@@ -3,24 +3,23 @@ dat <- read.csv("wordembedding.csv",header=TRUE)
 avg.hotel <- sort(tapply(as.numeric(dat$stars),dat$name,mean))
 hotel.names <- names(avg.hotel)
 
-
-if (round(avg.hotel[hotel.names[30]],1)<round(mean(avg.hotel),1)){
-  print(paste(hotel.names[30],"obtained",round(avg.hotel[hotel.names[30]],1),"average rate which is below the average rate(",round(mean(avg.hotel),1),")of hotels in Madison Area"))
+if (round(avg.hotel[hotel.names[2]],1)<round(mean(avg.hotel),1)){
+  print(paste(hotel.names[2],"obtained",round(avg.hotel[hotel.names[2]],1),"average rate which is below the average rate(",round(mean(avg.hotel),1),")of hotels in Madison Area"))
 }else{
-  print(paste(hotel.names[30],"obtained",round(avg.hotel[hotel.names[30]],1),"average rate which is above the average rate(",round(mean(avg.hotel),1),") of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",round(avg.hotel[hotel.names[2]],1),"average rate which is above the average rate(",round(mean(avg.hotel),1),") of hotels in Madison Area"))
 }
 
-print(paste(hotel.names[30],"got",length(which(dat$name==hotel.names[30])),"reviews from the customers"))
+print(paste(hotel.names[2],"got",length(which(dat$name==hotel.names[2])),"reviews from the customers"))
 
-barplot(table(dat$stars[which(dat$name==hotel.names[30])]), xlab="Stars",ylab="Number of Review", main=hotel.names[30])
+barplot(table(dat$stars[which(dat$name==hotel.names[2])]), xlab="Stars",ylab="Number of Review", main=hotel.names[2])
 
-if(length(which(dat$name==hotel.names[30]))>5){
+if(length(which(dat$name==hotel.names[2]))>5){
 
-  part.dat <- dat[which(dat$name==hotel.names[30]),]
+  part.dat <- dat[which(dat$name==hotel.names[2]),]
   part.words <- apply(part.dat[,4:dim(part.dat)[2]],2,sum)
   part.freq <- names(sort(part.words, decreasing= TRUE)[1:30])
   
-  print(paste("Most frequently appeared 30 words in reviews for",hotel.names[30],"are"))
+  print(paste("Most frequently appeared 30 words in reviews for",hotel.names[2],"are"))
   print(sort(part.words, decreasing= TRUE)[1:30])
 
 
@@ -36,27 +35,27 @@ location.part.avg <- round(mean(as.numeric(part.dat$stars[which(part.dat[,"bar"]
 atmosphere.part.avg <- round(mean(as.numeric(part.dat$stars[which(part.dat[,"clean"]==1|part.dat[,"quiet"]==1|part.dat[,"comfortable"]==1|part.dat[,"spacious"]==1|part.dat[,"quiet"]==1|part.dat[,"smell"]==1|part.dat[,"modern"]==1|part.dat[,"pretty"]==1|part.dat[,"comfy"]==1|part.dat[,"dirty"]==1)])),1)
 
 if(service.part.avg>service.avg){
-  print(paste(hotel.names[30],"obtained",service.part.avg,"star rate for service which is above the average rate(",service.avg,")of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",service.part.avg,"star rate for service which is above the average rate(",service.avg,")of hotels in Madison Area"))
 }else{
-  print(paste(hotel.names[30],"obtained",service.part.avg,"star rate for service which is below the average rate(",service.avg,")of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",service.part.avg,"star rate for service which is below the average rate(",service.avg,")of hotels in Madison Area"))
 }
 
 if(facility.part.avg>facility.avg){
-  print(paste(hotel.names[30],"obtained",facility.part.avg,"star rate for facility which is above the average rate(",facility.avg,")of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",facility.part.avg,"star rate for facility which is above the average rate(",facility.avg,")of hotels in Madison Area"))
 }else{
-  print(paste(hotel.names[30],"obtained",facility.part.avg,"star rate for facility which is below the average rate(",facility.avg,")of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",facility.part.avg,"star rate for facility which is below the average rate(",facility.avg,")of hotels in Madison Area"))
 }
 
 if(location.part.avg>location.avg){
-  print(paste(hotel.names[30],"obtained",location.part.avg,"star rate for location which is above the average rate(",location.avg,")of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",location.part.avg,"star rate for location which is above the average rate(",location.avg,")of hotels in Madison Area"))
 }else{
-  print(paste(hotel.names[30],"obtained",location.part.avg,"star rate for location which is below the average rate(",location.avg,")of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",location.part.avg,"star rate for location which is below the average rate(",location.avg,")of hotels in Madison Area"))
 }
 
 if(atmosphere.part.avg>atmosphere.avg){
-  print(paste(hotel.names[30],"obtained",atmosphere.part.avg,"star rate for atmosphere which is above the average rate(",atmosphere.avg,")of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",atmosphere.part.avg,"star rate for atmosphere which is above the average rate(",atmosphere.avg,")of hotels in Madison Area"))
 }else{
-  print(paste(hotel.names[30],"obtained",atmosphere.part.avg,"star rate for atmosphere which is below the average rate(",atmosphere.avg,")of hotels in Madison Area"))
+  print(paste(hotel.names[2],"obtained",atmosphere.part.avg,"star rate for atmosphere which is below the average rate(",atmosphere.avg,")of hotels in Madison Area"))
 }
 
 service <- c("booked","money","staff","manager","breakfast","desk")

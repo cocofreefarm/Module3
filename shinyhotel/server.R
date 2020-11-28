@@ -31,8 +31,10 @@ shinyServer(function(input, output) {
 
     freq.words <- reactive({names(sort(part.words, decreasing= TRUE)[1:30])})
     
-    output$Overall <- renderText({   
+    output$Overall1 <- renderText({
         paste(input$Hotel_name,"got",length(which(dat$name==input$Hotel_name)),"reviews from the customers")
+    })
+    output$Overall2 <- renderText({   
         if (round(avg.hotel[input$Hotel_name],1)<round(mean(avg.hotel),1)){
             paste(input$Hotel_name,"obtained",round(avg.hotel[input$Hotel_name],1),"average rate which is below the average rate(",round(mean(avg.hotel),1),")of hotels in Madison Area")
         }else if (round(avg.hotel[input$Hotel_name],1)==round(mean(avg.hotel),1)){
@@ -40,66 +42,66 @@ shinyServer(function(input, output) {
         }else{
             paste(input$Hotel_name,"obtained",round(avg.hotel[input$Hotel_name],1),"average rate which is above the average rate(",round(mean(avg.hotel),1),") of hotels in Madison Area")
         }
-        #paste("Most frequently appeared 30 words in reviews for",input$Hotel_name,"are")
+     })
+    output$Overall3 <- renderText({
+            paste("Most frequently appeared 30 words in reviews for",input$Hotel_name,"are")
     })
 
     output$barplot <- renderPlot({
         barplot(table(dat$stars[which(dat$name==input$Hotel_name)]), xlab="Stars",ylab="Number of Review", main=input$Hotel_name)
     })
     
-    reactive({if(length(which(dat$name==input$Hotel_name))>5){
-        output$Service <- renderText({
-            if(service.part.avg()>service.avg){
-                paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is above the average rate(",service.avg,")of hotels in Madison Area")
-            }else if(service.part.avg()==service.avg){
-                paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is the same as the average rate(",service.avg,")of hotels in Madison Area")
-            }else{
-                paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is below the average rate(",service.avg,")of hotels in Madison Area")
-            }
+    output$Service <- renderText({
+        if(length(which(dat$name==input$Hotel_name))>5){ 
+          if(service.part.avg()>service.avg){
+              paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is above the average rate(",service.avg,")of hotels in Madison Area")
+          }else if(service.part.avg()==service.avg){
+              paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is the same as the average rate(",service.avg,")of hotels in Madison Area")
+          }else{
+              paste(input$Hotel_name,"obtained",service.part.avg(),"star rate for service which is below the average rate(",service.avg,")of hotels in Madison Area")
+          }
+        }
+        else{
+            print("Not enough reviews from customers")
+        }
         })
-        output$Facility <- renderText({
+    output$Facility <- renderText({
+        if(length(which(dat$name==input$Hotel_name))>5){ 
             if(facility.part.avg()>facility.avg){
-                paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is above the average rate(",facility.avg,")of hotels in Madison Area")
-            }else if(facility.part.avg() == facility.avg){
-                paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is the same as the average rate(",facility.avg,")of hotels in Madison Area")
-            }else {
-                paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is below the average rate(",facility.avg,")of hotels in Madison Area")
-            }
+                 paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is above the average rate(",facility.avg,")of hotels in Madison Area")
+             }else if(facility.part.avg() == facility.avg){
+                 paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is the same as the average rate(",facility.avg,")of hotels in Madison Area")
+             }else {
+                 paste(input$Hotel_name,"obtained",facility.part.avg(),"star rate for facility which is below the average rate(",facility.avg,")of hotels in Madison Area")
+             }
+        }else{
+            print("Not enough reviews from customers")
+        }
         })
-        output$Location <- renderText({
-            if(location.part.avg()>location.avg){
-                paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is above the average rate(",location.avg,")of hotels in Madison Area")
-            }else if(location.part.avg() == location.avg){
-                paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is the same as the average rate(",location.avg,")of hotels in Madison Area")
-            }else{
-                paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is below the average rate(",location.avg,")of hotels in Madison Area")
-            }
-        })
-        output$Atmosphere <- renderText({
+    output$Location <- renderText({
+        if(length(which(dat$name==input$Hotel_name))>5){ 
+         if(location.part.avg()>location.avg){
+               paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is above the average rate(",location.avg,")of hotels in Madison Area")
+           }else if(location.part.avg() == location.avg){
+               paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is the same as the average rate(",location.avg,")of hotels in Madison Area")
+           }else{
+               paste(input$Hotel_name,"obtained",location.part.avg(),"star rate for location which is below the average rate(",location.avg,")of hotels in Madison Area")
+           }
+        }else{
+            print("Not enough reviews from customers")
+        }})
+    output$Atmosphere <- renderText({
+        if(length(which(dat$name==input$Hotel_name))>5){ 
             if(atmosphere.part.avg()>atmosphere.avg){
-                paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is above the average rate(",atmosphere.avg,")of hotels in Madison Area")
-            }else if(atmosphere.part.avg() == atmosphere.avg){
-                paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is the same as the average rate(",atmosphere.avg,")of hotels in Madison Area")
-            }else{
-                paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is below the average rate(",atmosphere.avg,")of hotels in Madison Area")
-            }
-        })
-    }else{
-        
-        output$Service <- renderText({
-            paste("Not enough reviews from customers")
-        })
-        output$Facility <- renderText({
-            paste("Not enough reviews from customers")
-        })
-        output$Location <- renderText({
-            paste("Not enough reviews from customers")
-        })
-        output$Atmosphere <- renderText({
-            paste("Not enough reviews from customers")
-        })
-    }})
-    
+                  paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is above the average rate(",atmosphere.avg,")of hotels in Madison Area")
+              }else if(atmosphere.part.avg() == atmosphere.avg){
+                  paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is the same as the average rate(",atmosphere.avg,")of hotels in Madison Area")
+              }else{
+                  paste(input$Hotel_name,"obtained",atmosphere.part.avg(),"star rate for atmosphere which is below the average rate(",atmosphere.avg,")of hotels in Madison Area")
+              }
+        }else{
+            print("Not enough reviews from customers")
+        }})
     
     output$Contact <- renderUI({
         HTML('<br>

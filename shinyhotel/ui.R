@@ -65,12 +65,12 @@ ui = fluidPage(
       
       mainPanel(
         tabsetPanel(
-          tabPanel("Customers' Evaluation", h3("Overall:"),textOutput("Overall"),plotOutput(outputId="barplot"),h3("Service:"),textOutput("Service"),h3("Facility"),textOutput("Facility"),h3("Location"),textOutput("Location"),h3("Atmosphere"),textOutput("Atmosphere")),
+          tabPanel("Customers' Evaluation", h3("Overall:"),textOutput("Overall1"),textOutput("Overall2"), textOutput("Overall3"),plotOutput(outputId="barplot"),h3("Service:"),textOutput("Service"),h3("Facility:"),textOutput("Facility"),h3("Location:"),textOutput("Location"),h3("Atmosphere:"),textOutput("Atmosphere")),
           tabPanel("Plot"),
           #The plot should be wordcloud based on python
           
           tabPanel("Tips",
-                   h3(htmlOutput("att1")),
+                   h3(htmlOutput("att1"))
 ),
           tabPanel("Contact us",h3("Contact:"),htmlOutput("Contact"))
         )
