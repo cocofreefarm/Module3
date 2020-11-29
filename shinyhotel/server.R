@@ -8,8 +8,11 @@
 #
 
 library(shiny)
+library(wordcloud)
+library(wordcloud2)
 
 dat <- read.csv("wordembedding.csv",header=TRUE)
+
 
 shinyServer(function(input, output) {
     
@@ -28,8 +31,21 @@ shinyServer(function(input, output) {
     facility.part.avg <- reactive({round(mean(as.numeric(part.dat()$stars[which(part.dat()[,"wall"]==1|part.dat()[,"parking"]==1)])),1)})
     location.part.avg <- reactive({round(mean(as.numeric(part.dat()$stars[which(part.dat()[,"bar"]==1|part.dat()[,"downtown"]==1|part.dat()[,"restaurant"]==1|part.dat()[,"location"]==1)])),1)})
     atmosphere.part.avg <- reactive({round(mean(as.numeric(part.dat()$stars[which(part.dat()[,"clean"]==1|part.dat()[,"quiet"]==1|part.dat()[,"comfortable"]==1|part.dat()[,"spacious"]==1|part.dat()[,"quiet"]==1|part.dat()[,"smell"]==1|part.dat()[,"modern"]==1|part.dat()[,"pretty"]==1|part.dat()[,"comfy"]==1|part.dat()[,"dirty"]==1)])),1)})
-
-    freq.words <- reactive({as.data.frame(sort(part.words, decreasing= TRUE)[1:30])})
+   
+    worddataframe = reactive({as.data.frame(part.words())})
+    words = reactive({rownames(worddataframe())})
+    cloud = reactive({data.frame(word = words(),count = worddataframe()$part.words)})
+    
+    output$wordcloud <- renderWordcloud2({
+        # wordcloud2(cloud())
+        # wordcloud(words = words,worddataframe()$part.words)
+        part.dat <- dat[which(dat$name==hotel.names[2]),]
+        part.words <- apply(part.dat[,4:dim(part.dat)[2]],2,sum)
+        part.freq <- names(sort(part.words, decreasing= TRUE)[1:30])
+        worddataframe1 <- as.data.frame(part.words)
+        worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words)
+        wordcloud2(data <- worddataframe2)
+    })
     
     output$Overall1 <- renderText({
         paste(input$Hotel_name,"got",length(which(dat$name==input$Hotel_name)),"reviews from the customers")

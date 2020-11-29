@@ -1,5 +1,5 @@
 dat <- read.csv("wordembedding.csv",header=TRUE)
-
+library(wordcloud2)
 avg.hotel <- sort(tapply(as.numeric(dat$stars),dat$name,mean))
 hotel.names <- names(avg.hotel)
 
@@ -20,6 +20,10 @@ if(length(which(dat$name==hotel.names[2]))>5){
   part.dat <- dat[which(dat$name==hotel.names[2]),]
   part.words <- apply(part.dat[,4:dim(part.dat)[2]],2,sum)
   part.freq <- names(sort(part.words, decreasing= TRUE)[1:30])
+  
+  worddataframe1 = as.data.frame(part.words)
+  worddataframe2 = data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words)
+  wordcloud2(data = worddataframe2)
   
   print(paste("Most frequently appeared 30 words in reviews for",hotel.names[2],"are"))
   print(sort(part.words, decreasing= TRUE)[1:30])

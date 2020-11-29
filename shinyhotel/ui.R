@@ -1,6 +1,6 @@
 library(shiny)
 library(ggplot2)
-
+library(wordcloud2)
 ui = fluidPage(
     titlePanel(h1(id = "title","Hotel Analysis based on Yelp ",align = "center")),
     tags$style(HTML("#title{font-size: 50px;font-family: Georgia;}")),
@@ -65,7 +65,14 @@ ui = fluidPage(
       
       mainPanel(
         tabsetPanel(
-          tabPanel("Customers' Evaluation", h3("Overall:"),textOutput("Overall1"),textOutput("Overall2"), textOutput("Overall3"),plotOutput(outputId="barplot"),h3("Service:"),textOutput("Service"),h3("Facility:"),textOutput("Facility"),h3("Location:"),textOutput("Location"),h3("Atmosphere:"),textOutput("Atmosphere")),
+          tabPanel("Customers' Evaluation", 
+                   h3("Overall:"),
+                   textOutput("Overall1"),
+                   textOutput("Overall2"),
+                   textOutput("Overall3"),
+                   fluidRow(column(12,wordcloud2Output(outputId="wordcloud",height = "400px")),
+                            column(6,plotOutput(outputId="barplot"))),
+                   h3("Service:"),textOutput("Service"),h3("Facility:"),textOutput("Facility"),h3("Location:"),textOutput("Location"),h3("Atmosphere:"),textOutput("Atmosphere")),
           tabPanel("Plot"),
           #The plot should be wordcloud based on python
           
