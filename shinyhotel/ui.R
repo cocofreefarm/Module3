@@ -1,6 +1,7 @@
 library(shiny)
 library(ggplot2)
 library(wordcloud2)
+
 ui = fluidPage(
     titlePanel(h1(id = "title","Hotel Analysis based on Yelp ",align = "center")),
     tags$style(HTML("#title{font-size: 50px;font-family: Georgia;}")),
@@ -59,8 +60,8 @@ ui = fluidPage(
         )),
         
         
-        p("Click and go to plot tab to see the details of :"),
-        fluidRow(column(6,style=list("padding-left: 5px;"),radioButtons("variable1", "Section",c("Service","Facility","Location","Atmosphere"))))
+        p("Click and go to Details tab to see the details of :"),
+        fluidRow(column(6,style=list("padding-left: 5px;"),radioButtons("variable1", "Categories", c("Service","Facility","Location","Atmosphere"))))
       ),
       
       mainPanel(
@@ -73,11 +74,54 @@ ui = fluidPage(
                    fluidRow(column(12,wordcloud2Output(outputId="wordcloud",height = "400px")),
                             column(6,plotOutput(outputId="barplot"))),
                    h3("Service:"),textOutput("Service"),h3("Facility:"),textOutput("Facility"),h3("Location:"),textOutput("Location"),h3("Atmosphere:"),textOutput("Atmosphere")),
-          tabPanel("Plot"),
+          tabPanel("Details",
+                  textOutput("Details"), tags$style("#Details {font-size:26px;}"),
+                  plotOutput("boxplots")
+                  
+                   
+),
           #The plot should be wordcloud based on python
           
           tabPanel("Tips",
-                   h3(htmlOutput("att1"))
+                   h2("*Service:"),
+                   h4("Reservation:"),
+                   textOutput("book"),
+                   h4("Price:"),
+                   textOutput("price"),
+                   h4("Employee:"),
+                   textOutput("employee"),
+                   h4("Breakfast:"),
+                   textOutput("breakf"),
+                   h4("Desk:"),
+                   textOutput("desk"),
+                   h2("*Facility:"),
+                   h4("Wall:"),
+                   textOutput("wall"),
+                   h4("Parking:"),
+                   textOutput("parking"),
+                   h2("*Location:"),
+                   h4("Location:"),
+                   textOutput("location"),
+                   h4("Restaurant:"),
+                   textOutput("restaurant"),
+                   h4("Bar:"),
+                   textOutput("bar"),
+                   h2("*Atmosphere:"),
+                   h4("Cleanliness:"),
+                   textOutput("clean"),
+                   h4("Comfortable:"),
+                   textOutput("comfortable"),
+                   h4("Spacious:"),
+                   textOutput("spacious"),
+                   h4("Smell:"),
+                   textOutput("smell"),
+                   h4("Modern:"),
+                   textOutput("modern"),
+                   h4("Pretty:"),
+                   textOutput("pretty"),
+                   h4("Dirty:"),
+                   textOutput("dirty"),
+                   
 ),
           tabPanel("Contact us",h3("Contact:"),htmlOutput("Contact"))
         )
