@@ -29,7 +29,7 @@ shinyServer(function(input, output) {
     location.part.avg <- reactive({round(mean(as.numeric(part.dat()$stars[which(part.dat()[,"bar"]==1|part.dat()[,"downtown"]==1|part.dat()[,"restaurant"]==1|part.dat()[,"location"]==1)])),1)})
     atmosphere.part.avg <- reactive({round(mean(as.numeric(part.dat()$stars[which(part.dat()[,"clean"]==1|part.dat()[,"quiet"]==1|part.dat()[,"comfortable"]==1|part.dat()[,"spacious"]==1|part.dat()[,"quiet"]==1|part.dat()[,"smell"]==1|part.dat()[,"modern"]==1|part.dat()[,"pretty"]==1|part.dat()[,"comfy"]==1|part.dat()[,"dirty"]==1)])),1)})
 
-    freq.words <- reactive({names(sort(part.words, decreasing= TRUE)[1:30])})
+    freq.words <- reactive({as.data.frame(sort(part.words, decreasing= TRUE)[1:30])})
     
     output$Overall1 <- renderText({
         paste(input$Hotel_name,"got",length(which(dat$name==input$Hotel_name)),"reviews from the customers")

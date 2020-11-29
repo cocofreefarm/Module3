@@ -13,6 +13,8 @@ print(paste(hotel.names[2],"got",length(which(dat$name==hotel.names[2])),"review
 
 barplot(table(dat$stars[which(dat$name==hotel.names[2])]), xlab="Stars",ylab="Number of Review", main=hotel.names[2])
 
+freq.words <- as.data.frame(sort(part.words, decreasing= TRUE)[1:30])
+
 if(length(which(dat$name==hotel.names[2]))>5){
 
   part.dat <- dat[which(dat$name==hotel.names[2]),]
@@ -117,8 +119,51 @@ pretty.dat.star <- as.numeric(dat$stars[which(dat[,"pretty"]==1)])
 comfy.dat.star <- as.numeric(dat$stars[which(dat[,"comfy"]==1)])
 dirty.dat.star <- as.numeric(dat$stars[which(dat[,"dirty"]==1)])
 
-boxplot(cbind(book.part.star,book.dat.star),main=paste('booked.star comparison between high rated hotel and low rated hotel'))
-t.test(clean.dat.star,clean.dat.star)
+boxplot(cbind(book.part.star,book.dat.star),main="Booked")
+a <- t.test(book.part.star,book.dat.star)
+
+boxplot(cbind(money.part.star,money.dat.star),main="money")
+
+
+boxplot(cbind(staff.part.star,staff.dat.star),main="staff")
+
+
+
+boxplot(cbind(manager.part.star,manager.dat.star),main="manager")
+
+boxplot(cbind(breakfast.part.star,breakfast.dat.star),main="breakfast")
+
+boxplot(cbind(desk.part.star,desk.dat.star),main="desk")
+
+boxplot(cbind(wall.part.star,wall.dat.star),main="wall")
+
+boxplot(cbind(parking.part.star,parking.dat.star),main="parking")
+
+boxplot(cbind(bar.part.star,bar.dat.star),main="bar")
+
+boxplot(cbind(downtown.part.star,downtown.dat.star),main="downtown")
+
+boxplot(cbind(restaurant.part.star,restaurant.dat.star),main="restaurant")
+
+boxplot(cbind(location.part.star,location.dat.star),main="location")
+
+boxplot(cbind(clean.part.star,clean.dat.star),main="clean")
+
+boxplot(cbind(comfortable.part.star,comfortable.dat.star),main="comfortable")
+
+boxplot(cbind(spacious.star,spacious.dat.star),main="spacious")
+
+boxplot(cbind(quiet.part.star,quiet.dat.star),main="quiet")
+
+boxplot(cbind(modern.part.star,modern.dat.star),main="modern")
+
+boxplot(cbind(pretty.part.star,pretty.dat.star),main="pretty")
+
+boxplot(cbind(comfy.part.star,comfy.dat.star),main="comfy")
+
+boxplot(cbind(smell.part.star,smell.dat.star),main="smell")
+
+boxplot(cbind(dirty.part.star,dirty.dat.star),main="dirty")
 
 }else{
   print("Not enough reviews from customers")
