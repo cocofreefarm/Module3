@@ -13,7 +13,8 @@ library(wordcloud2)
 
 
 dat <- read.csv("wordembedding.csv",header=TRUE)
-
+avg.hotel.cloud <- sort(tapply(as.numeric(dat$stars),dat$name,mean))
+hotel.names <- names(avg.hotel.cloud)
 
 shinyServer(function(input, output) {
     
@@ -116,25 +117,330 @@ shinyServer(function(input, output) {
     comfy.dat.star <- as.numeric(dat$stars[which(dat[,"comfy"]==1)])
     dirty.dat.star <- as.numeric(dat$stars[which(dat[,"dirty"]==1)])
     
-    
-    #worddataframe = reactive({as.data.frame(part.words())})
-    #words = reactive({rownames(worddataframe())})
-    #cloud = reactive({data.frame(word = words(),count = worddataframe()$part.words)})
-    
-    #output$wordcloud <- renderWordcloud2({
-        # wordcloud2(cloud())
-        # wordcloud(words = words,worddataframe()$part.words)
-        #part.dat <- dat[which(dat$name==hotel.names[2]),]
-        #part.words <- apply(part.dat[,4:dim(part.dat)[2]],2,sum)
-        #part.freq <- names(sort(part.words, decreasing= TRUE)[1:30])
-        #worddataframe1 <- as.data.frame(part.words)
-        #worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words)
-        #wordcloud2(data <- worddataframe2)
-    #})
+    output$wordcloud <- renderWordcloud2({
+        if (input$Hotel_name == hotel.names[1]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[1]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[2]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[2]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[3]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[3]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[4]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[4]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[5]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[5]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[6]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[6]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[7]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[7]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[8]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[8]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[9]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[9]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[10]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[10]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[11]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[11]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[12]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[12]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[13]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[13]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[14]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[14]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[15]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[15]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[16]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[16]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[17]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[17]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[18]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[18]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[19]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[19]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[20]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[20]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[21]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[21]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[22]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[22]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[23]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[23]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[24]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[24]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[25]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[25]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[26]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[26]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[27]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[27]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[28]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[28]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[29]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[29]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[30]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[30]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[31]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[31]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[32]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[32]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[33]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[33]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[34]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[34]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[35]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[35]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[36]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[36]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[37]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[37]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[38]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[38]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[39]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[39]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[40]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[40]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[41]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[41]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[42]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[42]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[43]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[43]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[44]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[44]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        } else if (input$Hotel_name == hotel.names[45]) {
+            part.dat.cloud <- dat[which(dat$name==hotel.names[45]),]
+            part.words.cloud <- apply(part.dat.cloud[,4:dim(part.dat.cloud)[2]],2,sum)
+            part.freq.cloud <- names(sort(part.words.cloud, decreasing= TRUE)[1:30])
+            worddataframe1 <- as.data.frame(part.words.cloud)
+            worddataframe2 <- data.frame(w = rownames(worddataframe1),c = worddataframe1$part.words.cloud)
+            wordcloud2(data <- worddataframe2)
+        }
+
+    })
     
     output$Overall1 <- renderText({
-        paste(input$Hotel_name,"got",length(which(dat$name==input$Hotel_name)),"reviews from the customers.")
+        paste(input$Hotel_name,"got",length(which(dat$name == input$Hotel_name)),"reviews from the customers.")
     })
+    
     output$Overall2 <- renderText({   
         if (round(avg.hotel[input$Hotel_name],1)<round(mean(avg.hotel),1)){
             paste(input$Hotel_name,"obtained",round(avg.hotel[input$Hotel_name],1),"average rate which is below the average rate(",round(mean(avg.hotel),1),")of hotels in Madison Area.")
@@ -144,6 +450,7 @@ shinyServer(function(input, output) {
             paste(input$Hotel_name,"obtained",round(avg.hotel[input$Hotel_name],1),"average rate which is above the average rate(",round(mean(avg.hotel),1),") of hotels in Madison Area.")
         }
      })
+    
     output$Overall3 <- renderText({
             paste("Most frequently appeared 30 words in reviews for",input$Hotel_name,"are")
     })
@@ -166,6 +473,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
         })
+    
     output$Facility <- renderText({
         if(facility.part.len()>=3){ 
             if(facility.part.avg()>facility.avg){
@@ -179,6 +487,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
         })
+    
     output$Location <- renderText({
         if(location.part.len()>=3){ 
          if(location.part.avg()>location.avg){
@@ -191,6 +500,7 @@ shinyServer(function(input, output) {
         }else{
             print("Not enough reviews from customers")
         }})
+    
     output$Atmosphere <- renderText({
         if(atmoshere.part.len()>=3){ 
             if(atmosphere.part.avg()>atmosphere.avg){
@@ -204,13 +514,19 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }})
     
-        output$Details <- renderText({
+    output$Details <- renderText({
         paste(input$variable1,":")
     })
+<<<<<<< HEAD
         
 
      output$boxplots <- renderPlot({
          par(mfrow=c(3,3))
+=======
+    
+    output$boxplots <- renderPlot({
+         par(mfrow=c(7,3))
+>>>>>>> ecba720bc57dcb2fd6f00da9aa20b7686aa05736
          boxplot(cbind(book.part.star(),book.dat.star),main="Booked",ylab="Star")
          boxplot(cbind(money.part.star(),money.dat.star),main="Money",ylab="Star")
          boxplot(cbind(staff.part.star(),staff.dat.star),main="Staff",ylab="Star")
@@ -248,6 +564,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     }) 
+    
     output$price <- renderText({
         if(money.part.star.len()>=3){
             if(round(mean(money.part.star()),1)>=round(mean(money.dat.star),1)){
@@ -259,6 +576,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$employee <- renderText({
         if((staff.part.star.len()+manager.part.star.len())>=3){
             if(round(mean(c(staff.part.star(),manager.part.star())),1)>=round(mean(c(staff.dat.star,manager.dat.star)),1)){
@@ -270,6 +588,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     }) 
+    
     output$breakf <- renderText({
         if((breakfast.part.star.len())>=3){
             if(round(mean(breakfast.part.star()),1)>=round(mean(breakfast.dat.star),1)){
@@ -281,6 +600,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$desk <- renderText({
         if((desk.part.star.len())>=3){
             if(round(mean(desk.part.star()),1)>=round(mean(desk.dat.star),1)){
@@ -292,6 +612,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$wall <- renderText({
         if((wall.part.star.len())>=3){
             if(round(mean(wall.part.star()),1)>=round(mean(wall.dat.star),1)){
@@ -303,6 +624,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$parking <- renderText({
         if((parking.part.star.len())>=3){
             if(round(mean(parking.part.star()),1)>=round(mean(parking.dat.star),1)){
@@ -314,6 +636,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     }) 
+    
     output$location <- renderText({
         if((location.part.star.len()+downtown.part.star.len())>=3){
             if(round(mean(c(location.part.star(),downtown.part.star())),1)>=round(mean(c(location.dat.star,downtown.dat.star)),1)){
@@ -325,6 +648,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$restaurant <- renderText({
         if((restaurant.part.star.len())>=3){
             if(round(mean(restaurant.part.star()),1)>=round(mean(restaurant.dat.star),1)){
@@ -336,6 +660,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$bar <- renderText({
         if((bar.part.star.len())>=3){
             if(round(mean(bar.part.star()),1)>=round(mean(bar.dat.star),1)){
@@ -347,6 +672,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$clean <- renderText({
         if((clean.part.star.len())>=3){
             if(round(mean(clean.part.star()),1)>=round(mean(clean.dat.star),1)){
@@ -358,6 +684,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$comfortable <- renderText({
         if((comfortable.part.star.len()+comfy.part.star.len())>=3){
             if(round(mean(c(comfortable.part.star(),comfy.part.star())),1)>=round(mean(c(comfortable.dat.star,comfy.dat.star)),1)){
@@ -369,6 +696,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$spacious <- renderText({
         if((spacious.part.star.len())>=3){
             if(round(mean(spacious.part.star()),1)>=round(mean(spacious.dat.star),1)){
@@ -380,6 +708,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$smell <- renderText({
         if((smell.part.star.len())>=3){
             if(round(mean(smell.part.star()),1)>=round(mean(smell.dat.star),1)){
@@ -391,6 +720,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$modern <- renderText({
         if((modern.part.star.len())>=3){
             if(round(mean(modern.part.star()),1)>=round(mean(modern.dat.star),1)){
@@ -402,6 +732,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$pretty <- renderText({
         if((pretty.part.star.len())>=3){
             if(round(mean(pretty.part.star()),1)>=round(mean(pretty.dat.star),1)){
@@ -413,6 +744,7 @@ shinyServer(function(input, output) {
             print("Not enough reviews from customers")
         }
     })
+    
     output$dirty <- renderText({
         if((dirty.part.star.len())>=3){
             if(round(mean(dirty.part.star()),1)>=round(mean(dirty.dat.star),1)){
