@@ -117,6 +117,9 @@ shinyServer(function(input, output) {
     comfy.dat.star <- as.numeric(dat$stars[which(dat[,"comfy"]==1)])
     dirty.dat.star <- as.numeric(dat$stars[which(dat[,"dirty"]==1)])
     
+    # output$wordcloud1 <- renderText({
+    #     paste("Most freqently used word for",input$Hotel_name,":")
+    # })
     output$wordcloud <- renderWordcloud2({
         if (input$Hotel_name == hotel.names[1]) {
             part.dat.cloud <- dat[which(dat$name==hotel.names[1]),]
@@ -516,32 +519,47 @@ shinyServer(function(input, output) {
 
 
     output$boxplots <- renderPlot({
-         par(mfrow=c(3,3))
-
-         boxplot(cbind(book.part.star(),book.dat.star),main="Booked",ylab="Star")
-         boxplot(cbind(money.part.star(),money.dat.star),main="Money",ylab="Star")
-         boxplot(cbind(staff.part.star(),staff.dat.star),main="Staff",ylab="Star")
-         boxplot(cbind(manager.part.star(),manager.dat.star),main="Manager",ylab="Star")
-         boxplot(cbind(breakfast.part.star(),manager.dat.star),main="breakfast",ylab="Star")
-         boxplot(cbind(desk.part.star(),desk.dat.star),main="Desk",ylab="Star")
+         # par(mfrow=c(3,3))
+         variables =  c("Service","Facility","Location","Atmosphere")
+         if (input$variable1 == variables[1]) {
+             opar <- par(no.readonly = TRUE)
+             par(mfrow = c(2, 3))
+             boxplot(cbind(book.part.star(),book.dat.star),main="Booked",ylab="Star")
+             boxplot(cbind(money.part.star(),money.dat.star),main="Money",ylab="Star")
+             boxplot(cbind(staff.part.star(),staff.dat.star),main="Staff",ylab="Star")
+             boxplot(cbind(manager.part.star(),manager.dat.star),main="Manager",ylab="Star")
+             boxplot(cbind(breakfast.part.star(),manager.dat.star),main="breakfast",ylab="Star")
+             boxplot(cbind(desk.part.star(),desk.dat.star),main="Desk",ylab="Star")
+             par(opar)
+         } else if (input$variable1 == variables[2]){
+             opar <- par(no.readonly = TRUE)
+             par(mfrow = c(1, 2))
+             boxplot(cbind(wall.part.star(),wall.dat.star),main="wall",ylab="Star")
+             boxplot(cbind(parking.part.star(),parking.dat.star),main="parking",ylab="Star")
+             par(opar)
+         } else if (input$variable1 == variables[3]){
+             opar <- par(no.readonly = TRUE)
+             par(mfrow = c(2, 2))
+             boxplot(cbind(bar.part.star(),bar.dat.star),main="bar",ylab="Star")
+             boxplot(cbind(downtown.part.star(),downtown.dat.star),main="downtown",ylab="Star")
+             boxplot(cbind(restaurant.part.star(),restaurant.dat.star),main="restaurant",ylab="Star")
+             boxplot(cbind(location.part.star(),location.dat.star),main="location",ylab="Star")
+             par(opar)
+         } else if (input$variable1 == variables[4]){
+             opar <- par(no.readonly = TRUE)
+             par(mfrow = c(3, 3))
+             boxplot(cbind(clean.part.star(),clean.dat.star),main="clean",ylab="Star")
+             boxplot(cbind(comfortable.part.star(),comfortable.dat.star),main="comfortable",ylab="Star")
+             boxplot(cbind(spacious.part.star(),spacious.dat.star),main="spacious",ylab="Star")
+             boxplot(cbind(quiet.part.star(),quiet.dat.star),main="quiet",ylab="Star")
+             boxplot(cbind(smell.part.star(),smell.dat.star),main="smell",ylab="Star")
+             boxplot(cbind(modern.part.star(),modern.dat.star),main="modern",ylab="Star")
+             boxplot(cbind(pretty.part.star(),pretty.dat.star),main="pretty",ylab="Star")
+             boxplot(cbind(comfy.part.star(),comfy.dat.star),main="comfy",ylab="Star")
+             boxplot(cbind(dirty.part.star(),dirty.dat.star),main="dirty",ylab="Star")
+             par(opar)
+         } 
          
-         boxplot(cbind(wall.part.star(),wall.dat.star),main="wall",ylab="Star")
-         boxplot(cbind(parking.part.star(),parking.dat.star),main="parking",ylab="Star")
-         
-         boxplot(cbind(bar.part.star(),bar.dat.star),main="bar",ylab="Star")
-         boxplot(cbind(downtown.part.star(),downtown.dat.star),main="downtown",ylab="Star")
-         boxplot(cbind(restaurant.part.star(),restaurant.dat.star),main="restaurant",ylab="Star")
-         boxplot(cbind(location.part.star(),location.dat.star),main="location",ylab="Star")
-         
-         boxplot(cbind(clean.part.star(),clean.dat.star),main="clean",ylab="Star")
-         boxplot(cbind(comfortable.part.star(),comfortable.dat.star),main="comfortable",ylab="Star")
-         boxplot(cbind(spacious.part.star(),spacious.dat.star),main="spacious",ylab="Star")
-         boxplot(cbind(quiet.part.star(),quiet.dat.star),main="quiet",ylab="Star")
-         boxplot(cbind(smell.part.star(),smell.dat.star),main="smell",ylab="Star")
-         boxplot(cbind(modern.part.star(),modern.dat.star),main="modern",ylab="Star")
-         boxplot(cbind(pretty.part.star(),pretty.dat.star),main="pretty",ylab="Star")
-         boxplot(cbind(comfy.part.star(),comfy.dat.star),main="comfy",ylab="Star")
-         boxplot(cbind(dirty.part.star(),dirty.dat.star),main="dirty",ylab="Star")
     })
      
     output$book <- renderText({
