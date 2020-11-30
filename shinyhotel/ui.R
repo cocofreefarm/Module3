@@ -71,15 +71,15 @@ ui = fluidPage(
                    textOutput("Overall1"),
                    textOutput("Overall2"),
                    textOutput("Overall3"),
-                   fluidRow(column(12,wordcloud2Output(outputId="wordcloud",height = "400px")),
+                   fluidRow(column(6,wordcloud2Output(outputId="wordcloud",height = "400px",width = "400px")),
                             column(6,plotOutput(outputId="barplot"))),
                    h3("Service:"),textOutput("Service"),h3("Facility:"),textOutput("Facility"),h3("Location:"),textOutput("Location"),h3("Atmosphere:"),textOutput("Atmosphere")),
           tabPanel("Details",
-                  textOutput("Details"), tags$style("#Details {font-size:26px;}"),
-                  plotOutput("boxplots")
-                  
+                   textOutput("Details"), tags$style("#Details {font-size:26px;}"),
+                   plotOutput("boxplots")
                    
-),
+                   
+          ),
           #The plot should be wordcloud based on python
           
           tabPanel("Tips",
