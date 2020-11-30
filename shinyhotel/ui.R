@@ -70,10 +70,11 @@ ui = fluidPage(
                    h3("Overall:"),
                    textOutput("Overall1"),
                    textOutput("Overall2"),
-                   textOutput("Overall3"),
-                   fluidRow(column(6,wordcloud2Output(outputId="wordcloud",height = "400px",width = "400px")),
-                            column(6,plotOutput(outputId="barplot"))),
+                   plotOutput(outputId="barplot"),
                    h3("Service:"),textOutput("Service"),h3("Facility:"),textOutput("Facility"),h3("Location:"),textOutput("Location"),h3("Atmosphere:"),textOutput("Atmosphere")),
+          tabPanel("Word Clouds for the selected hotel",
+                   wordcloud2Output(outputId="wordcloud",height = "400px",width = "400px"),
+                   ),
           tabPanel("Details",
                    textOutput("Details"), tags$style("#Details {font-size:26px;}"),
                    plotOutput("boxplots")
@@ -120,7 +121,7 @@ ui = fluidPage(
                    h4("Pretty:"),
                    textOutput("pretty"),
                    h4("Dirty:"),
-                   textOutput("dirty"),
+                   textOutput("dirty")
                    
 ),
           tabPanel("Contact us",h3("Contact:"),htmlOutput("Contact"))

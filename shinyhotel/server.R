@@ -450,10 +450,6 @@ shinyServer(function(input, output) {
             paste(input$Hotel_name,"obtained",round(avg.hotel[input$Hotel_name],1),"average rate which is above the average rate(",round(mean(avg.hotel),1),") of hotels in Madison Area.")
         }
      })
-    
-    output$Overall3 <- renderText({
-            paste("Most frequently appeared 30 words in reviews for",input$Hotel_name,"are")
-    })
 
     output$barplot <- renderPlot({
         barplot(table(dat$stars[which(dat$name==input$Hotel_name)]), xlab="Stars",ylab="Number of Review", main=input$Hotel_name)
@@ -517,16 +513,11 @@ shinyServer(function(input, output) {
     output$Details <- renderText({
         paste(input$variable1,":")
     })
-<<<<<<< HEAD
-        
 
-     output$boxplots <- renderPlot({
-         par(mfrow=c(3,3))
-=======
-    
+
     output$boxplots <- renderPlot({
-         par(mfrow=c(7,3))
->>>>>>> ecba720bc57dcb2fd6f00da9aa20b7686aa05736
+         par(mfrow=c(3,3))
+
          boxplot(cbind(book.part.star(),book.dat.star),main="Booked",ylab="Star")
          boxplot(cbind(money.part.star(),money.dat.star),main="Money",ylab="Star")
          boxplot(cbind(staff.part.star(),staff.dat.star),main="Staff",ylab="Star")
