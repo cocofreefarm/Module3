@@ -210,7 +210,7 @@ shinyServer(function(input, output) {
         
 
      output$boxplots <- renderPlot({
-         par(mfrow=c(7,3))
+         par(mfrow=c(3,3))
          boxplot(cbind(book.part.star(),book.dat.star),main="Booked",ylab="Star")
          boxplot(cbind(money.part.star(),money.dat.star),main="Money",ylab="Star")
          boxplot(cbind(staff.part.star(),staff.dat.star),main="Staff",ylab="Star")
