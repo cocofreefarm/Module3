@@ -1,0 +1,12 @@
+name: shinyhotel
+title: shinyhotel
+username:
+account: cocofreefarm
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3332579
+bundleId: 3928586
+url: https://cocofreefarm.shinyapps.io/shinyhotel/
+when: 1606844484.84064
+asMultiple: FALSE
+asStatic: FALSE

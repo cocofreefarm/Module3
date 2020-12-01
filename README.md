@@ -5,7 +5,7 @@ GROUP MEMBERS : Hangyu Kang, Xiangyu Wang, Ruyan Zhou
     wordembedding.csv : Essential data file for executing shiny application. It is in the shinyhotel folder as well.
     Exesummary.pdf : 5pages of Executive Summary in ExecSummary folder
     Exesummary.docx : 5pages of Executive Summary in ExecSummary folder
-    Analysis.ipynb: Main codes for data analysis
+    Analysis.ipynb: Main codes for data analysis in code folder
     df.csv : cleaned dataset which are used for the analysis. It is in the Data folder.
     Hotels in Madison Area.mp4 : Recorded Presentation Video in Sildes and Presentation folder.
     Hotels in Madison Area.pptx : Presentation Slides in Sildes and Presentation folder.
