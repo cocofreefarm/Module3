@@ -3,7 +3,7 @@ library(ggplot2)
 library(wordcloud2)
 
 ui = fluidPage(
-    titlePanel(h1(id = "title","Hotel Analysis based on Yelp ",align = "center")),
+    titlePanel(h1(id = "title","Hotel Analysis based on Yelp",align = "center")),
     tags$style(HTML("#title{font-size: 50px;font-family: Georgia;}")),
     hr(),
     fluidRow(column(4, h2("Input")), column(4, h2("Output"))),

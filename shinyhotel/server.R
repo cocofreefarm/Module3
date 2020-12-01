@@ -10,9 +10,11 @@
 library(shiny)
 library(wordcloud)
 library(wordcloud2)
+library(ggplot2)
 
 
 dat <- read.csv("wordembedding.csv",header=TRUE)
+sentiment <- read.csv("sentiments.csv")
 avg.hotel.cloud <- sort(tapply(as.numeric(dat$stars),dat$name,mean))
 hotel.names <- names(avg.hotel.cloud)
 
@@ -132,7 +134,8 @@ shinyServer(function(input, output) {
 
     
     output$Overall1 <- renderText({
-        paste(input$Hotel_name,"got",length(which(dat$name == input$Hotel_name)),"reviews from the customers.")
+        paste(input$Hotel_name,"got",length(which(dat$name == input$Hotel_name)),"reviews from the customers. There are"
+              , sentiment$P[which(sentiment$name == input$Hotel_name)], "positive reviews and", sentiment$N[which(sentiment$name == input$Hotel_name)], "negative reviews.")
     })
     
     output$Overall2 <- renderText({   
