@@ -11,6 +11,9 @@ library(shiny)
 library(wordcloud)
 library(wordcloud2)
 library(ggplot2)
+if (!require(gridExtra)){
+    install.packages("gridExtra")
+}
 
 
 dat <- read.csv("wordembedding.csv",header=TRUE)
@@ -149,7 +152,16 @@ shinyServer(function(input, output) {
      })
 
     output$barplot <- renderPlot({
-        barplot(table(dat$stars[which(dat$name==input$Hotel_name)]), xlab="Stars",ylab="Number of Review", main=input$Hotel_name)
+        bar = table(dat$stars[which(dat$name==input$Hotel_name)])
+        bar = as.data.frame(bar)
+        colnames(bar) = c("Stars", "Freq")
+        ggplot(bar, aes(x = Stars, y = Freq, fill = Stars))+
+            geom_bar(stat="identity")+
+            scale_fill_brewer(palette="Blues")+
+            theme_minimal()+
+            theme(legend.position="bottom")+
+            ylab("Number of Reviews")+
+            labs(title = input$Hotel_name)
     })
     
     output$Service <- renderText({
@@ -216,42 +228,202 @@ shinyServer(function(input, output) {
          # par(mfrow=c(3,3))
          variables =  c("Service","Facility","Location","Atmosphere")
          if (input$variable1 == variables[1]) {
-             opar <- par(no.readonly = TRUE)
-             par(mfrow = c(2, 3))
-             boxplot(cbind(book.part.star(),book.dat.star),main="Booked",ylab="Star")
-             boxplot(cbind(money.part.star(),money.dat.star),main="Money",ylab="Star")
-             boxplot(cbind(staff.part.star(),staff.dat.star),main="Staff",ylab="Star")
-             boxplot(cbind(manager.part.star(),manager.dat.star),main="Manager",ylab="Star")
-             boxplot(cbind(breakfast.part.star(),manager.dat.star),main="breakfast",ylab="Star")
-             boxplot(cbind(desk.part.star(),desk.dat.star),main="Desk",ylab="Star")
-             par(opar)
+             if (book.part.star.len() > 0){
+                 df1 = data.frame(book = input$Hotel_name, Stars = book.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(book = "Total", Stars = book.dat.star)
+             plot.data = rbind(df1,df2)
+             p1 = ggplot(plot.data, aes(x=book, y=Stars, fill=book)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (money.part.star.len() > 0){
+                 df1 = data.frame(money = input$Hotel_name, Stars = money.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(money = "Total", Stars = money.dat.star)
+             plot.data = rbind(df1,df2)
+             p2 = ggplot(plot.data, aes(x=money, y=Stars, fill=money)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (staff.part.star.len() > 0){
+                 df1 = data.frame(staff = input$Hotel_name, Stars = staff.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(staff = "Total", Stars = staff.dat.star)
+             plot.data = rbind(df1,df2)
+             p3 = ggplot(plot.data, aes(x=staff, y=Stars, fill=staff)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (manager.part.star.len() > 0){
+                 df1 = data.frame(manager = input$Hotel_name, Stars = manager.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(manager = "Total", Stars = manager.dat.star)
+             plot.data = rbind(df1,df2)
+             p4 = ggplot(plot.data, aes(x=manager, y=Stars, fill=manager)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (breakfast.part.star.len() > 0){
+                 df1 = data.frame(breakfast = input$Hotel_name, Stars = breakfast.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(breakfast = "Total", Stars = manager.dat.star)
+             plot.data = rbind(df1,df2)
+             p5 = ggplot(plot.data, aes(x=breakfast, y=Stars, fill=breakfast)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (desk.part.star.len() > 0){
+                 df1 = data.frame(desk = input$Hotel_name, Stars = desk.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(desk = "Total", Stars = desk.dat.star)
+             plot.data = rbind(df1,df2)
+             p6 = ggplot(plot.data, aes(x=desk, y=Stars, fill=desk)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             grid.arrange(p1, p2, p3, p4, p5, p6, ncol=3)
          } else if (input$variable1 == variables[2]){
-             opar <- par(no.readonly = TRUE)
-             par(mfrow = c(1, 2))
-             boxplot(cbind(wall.part.star(),wall.dat.star),main="wall",ylab="Star")
-             boxplot(cbind(parking.part.star(),parking.dat.star),main="parking",ylab="Star")
-             par(opar)
+             if (wall.part.star.len() > 0){
+                 df1 = data.frame(wall = input$Hotel_name, Stars = wall.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(wall = "Total", Stars = wall.dat.star)
+             plot.data = rbind(df1,df2)
+             p1 = ggplot(plot.data, aes(x=wall, y=Stars, fill=wall)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (parking.part.star.len() > 0){
+                 df1 = data.frame(parking = input$Hotel_name, Stars = parking.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(parking = "Total", Stars = parking.dat.star)
+             plot.data = rbind(df1,df2)
+             p2 = ggplot(plot.data, aes(x=parking, y=Stars, fill=parking)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             grid.arrange(p1, p2, ncol=2)
          } else if (input$variable1 == variables[3]){
-             opar <- par(no.readonly = TRUE)
-             par(mfrow = c(2, 2))
-             boxplot(cbind(bar.part.star(),bar.dat.star),main="bar",ylab="Star")
-             boxplot(cbind(downtown.part.star(),downtown.dat.star),main="downtown",ylab="Star")
-             boxplot(cbind(restaurant.part.star(),restaurant.dat.star),main="restaurant",ylab="Star")
-             boxplot(cbind(location.part.star(),location.dat.star),main="location",ylab="Star")
-             par(opar)
+             if (bar.part.star.len() > 0){
+                 df1 = data.frame(bar = input$Hotel_name, Stars = bar.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(bar = "Total", Stars = bar.dat.star)
+             plot.data = rbind(df1,df2)
+             p1 = ggplot(plot.data, aes(x=bar, y=Stars, fill=bar)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (downtown.part.star.len() > 0){
+                 df1 = data.frame(downtown = input$Hotel_name, Stars = downtown.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(downtown = "Total", Stars = downtown.dat.star)
+             plot.data = rbind(df1,df2)
+             p2 = ggplot(plot.data, aes(x=downtown, y=Stars, fill=downtown)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (restaurant.part.star.len() > 0){
+                 df1 = data.frame(restaurant = input$Hotel_name, Stars = restaurant.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(restaurant = "Total", Stars = restaurant.dat.star)
+             plot.data = rbind(df1,df2)
+             p3 = ggplot(plot.data, aes(x=restaurant, y=Stars, fill=restaurant)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (location.part.star.len() > 0){
+                 df1 = data.frame(location = input$Hotel_name, Stars = location.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(location = "Total", Stars = location.dat.star)
+             plot.data = rbind(df1,df2)
+             p4 = ggplot(plot.data, aes(x=location, y=Stars, fill=location)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             grid.arrange(p1, p2, p3, p4, ncol=2)
          } else if (input$variable1 == variables[4]){
-             opar <- par(no.readonly = TRUE)
-             par(mfrow = c(3, 3))
-             boxplot(cbind(clean.part.star(),clean.dat.star),main="clean",ylab="Star")
-             boxplot(cbind(comfortable.part.star(),comfortable.dat.star),main="comfortable",ylab="Star")
-             boxplot(cbind(spacious.part.star(),spacious.dat.star),main="spacious",ylab="Star")
-             boxplot(cbind(quiet.part.star(),quiet.dat.star),main="quiet",ylab="Star")
-             boxplot(cbind(smell.part.star(),smell.dat.star),main="smell",ylab="Star")
-             boxplot(cbind(modern.part.star(),modern.dat.star),main="modern",ylab="Star")
-             boxplot(cbind(pretty.part.star(),pretty.dat.star),main="pretty",ylab="Star")
-             boxplot(cbind(comfy.part.star(),comfy.dat.star),main="comfy",ylab="Star")
-             boxplot(cbind(dirty.part.star(),dirty.dat.star),main="dirty",ylab="Star")
-             par(opar)
+             if (clean.part.star.len() > 0){
+                 df1 = data.frame(clean = input$Hotel_name, Stars = clean.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(clean = "Total", Stars = clean.dat.star)
+             plot.data = rbind(df1,df2)
+             p1 = ggplot(plot.data, aes(x=clean, y=Stars, fill=clean)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (comfortable.part.star.len() > 0){
+                 df1 = data.frame(comfortable = input$Hotel_name, Stars = comfortable.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(comfortable = "Total", Stars = comfortable.dat.star)
+             plot.data = rbind(df1,df2)
+             p2 = ggplot(plot.data, aes(x=comfortable, y=Stars, fill=comfortable)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (spacious.part.star.len() > 0){
+                 df1 = data.frame(spacious = input$Hotel_name, Stars = spacious.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(spacious = "Total", Stars = spacious.dat.star)
+             plot.data = rbind(df1,df2)
+             p3 = ggplot(plot.data, aes(x=spacious, y=Stars, fill=spacious)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (quiet.part.star.len() > 0){
+                 df1 = data.frame(quiet = input$Hotel_name, Stars = quiet.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(quiet = "Total", Stars = quiet.dat.star)
+             plot.data = rbind(df1,df2)
+             p4 = ggplot(plot.data, aes(x=quiet, y=Stars, fill=quiet)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (smell.part.star.len() > 0){
+                 df1 = data.frame(smell = input$Hotel_name, Stars = smell.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(smell = "Total", Stars = smell.dat.star)
+             plot.data = rbind(df1,df2)
+             p5 = ggplot(plot.data, aes(x=smell, y=Stars, fill=smell)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (modern.part.star.len() > 0){
+                 df1 = data.frame(modern = input$Hotel_name, Stars = modern.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(modern = "Total", Stars = modern.dat.star)
+             plot.data = rbind(df1,df2)
+             p6 = ggplot(plot.data, aes(x=modern, y=Stars, fill=modern)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (pretty.part.star.len() > 0){
+                 df1 = data.frame(pretty = input$Hotel_name, Stars = pretty.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(pretty = "Total", Stars = pretty.dat.star)
+             plot.data = rbind(df1,df2)
+             p7 = ggplot(plot.data, aes(x=pretty, y=Stars, fill=pretty)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (comfy.part.star.len() > 0){
+                 df1 = data.frame(comfy = input$Hotel_name, Stars = comfy.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(comfy = "Total", Stars = comfy.dat.star)
+             plot.data = rbind(df1,df2)
+             p8 = ggplot(plot.data, aes(x=comfy, y=Stars, fill=comfy)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             if (dirty.part.star.len() > 0){
+                 df1 = data.frame(dirty = input$Hotel_name, Stars = dirty.part.star())
+             } else {
+                 df1 = data.frame()
+             }
+             df2 = data.frame(dirty = "Total", Stars = dirty.dat.star)
+             plot.data = rbind(df1,df2)
+             p9 = ggplot(plot.data, aes(x=dirty, y=Stars, fill=dirty)) + geom_boxplot() + 
+                 theme(legend.position = "none")
+             grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, p9, ncol=3)
          } 
          
     })
