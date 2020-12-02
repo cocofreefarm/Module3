@@ -281,7 +281,7 @@ shinyServer(function(input, output) {
              df2 = data.frame(desk = "Total", Stars = desk.dat.star)
              plot.data = rbind(df1,df2)
              p6 = ggplot(plot.data, aes(x=desk, y=Stars, fill=desk)) + geom_boxplot() + 
-                 theme(legend.position = "none")
+                 theme(legend.position = "none") 
              grid.arrange(p1, p2, p3, p4, p5, p6, ncol=3)
          } else if (input$variable1 == variables[2]){
              if (wall.part.star.len() > 0){
