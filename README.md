@@ -8,7 +8,7 @@ GROUP MEMBERS : Hangyu Kang, Xiangyu Wang, Ruyan Zhou
     Exesummary.docx : 5pages of Executive Summary in the ExecSummary folder.
     Analysis.ipynb: Main codes for data analysis in the code folder.
     df.csv : cleaned dataset which are used for the analysis. It is in the Data folder.
-    sentiments.R: Codes for sentiment analysis in the code folder.
+    sentimentanalysis.R: Codes for sentiment analysis in the code folder.
     sentiments.csv: Results of sentiment analysis whose columns are name of the hotels, number of positive reviews and number of negative reviews. It is in the shinyhotel folder. Essential data file for executing shiny app.
     Hotels in Madison Area.mp4 : Recorded Presentation Video in Sildes and Presentation folder.
     Hotels in Madison Area.pptx : Presentation Slides in Sildes and Presentation folder.
