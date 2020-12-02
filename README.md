@@ -4,11 +4,12 @@ GROUP MEMBERS : Hangyu Kang, Xiangyu Wang, Ruyan Zhou
     server.R, ui.R : Two files are essential files for shiny application we made for the project. They are in the shinyhotel folder
     Module 3 Data Cleaning.ipynb : Data cleaning code for the analysis. It is in the code folder.
     wordembedding.csv : Essential data file for executing shiny application. It is in the shinyhotel folder as well.
-    Exesummary.pdf : 5pages of Executive Summary in the ExecSummary folder
-    Exesummary.docx : 5pages of Executive Summary in the ExecSummary folder
-    Analysis.ipynb: Main codes for data analysis in the code folder
+    Exesummary.pdf : 5pages of Executive Summary in the ExecSummary folder.
+    Exesummary.docx : 5pages of Executive Summary in the ExecSummary folder.
+    Analysis.ipynb: Main codes for data analysis in the code folder.
     df.csv : cleaned dataset which are used for the analysis. It is in the Data folder.
-    sentiments.csv: results of sentiment analysis whose columns are name of the hotels, number of positive reviews and number of negative reviews. It is in the shinyhotel folder.
+    sentiments.R: Codes for sentiment analysis in the code folder.
+    sentiments.csv: Results of sentiment analysis whose columns are name of the hotels, number of positive reviews and number of negative reviews. It is in the shinyhotel folder. Essential data file for executing shiny app.
     Hotels in Madison Area.mp4 : Recorded Presentation Video in Sildes and Presentation folder.
     Hotels in Madison Area.pptx : Presentation Slides in Sildes and Presentation folder.
     Image folder: figures and tables we got from our analysis.
